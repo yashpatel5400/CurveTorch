@@ -1,0 +1,7 @@
+name: curvetorch
+channels:
+  - pytorch
+  - curvetorch
+dependencies:
+  - pytorch>=1.9
+  - scipy

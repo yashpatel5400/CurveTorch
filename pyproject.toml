@@ -1,0 +1,8 @@
+[tool.setuptools_scm]
+
+[build-system]
+requires = ["setuptools<48", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.usort]
+first_party_detection = false
