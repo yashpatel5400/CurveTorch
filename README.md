@@ -15,7 +15,8 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 
-CurveTorch is a library for Bayesian Optimization built on PyTorch.
+CurveTorch is a library for Self-Tuning Stochastic Optimization with
+Curvature-Aware Gradient Filtering built on PyTorch.
 
 *CurveTorch is currently in beta and under active development!*
 
@@ -33,9 +34,6 @@ CurveTorch
   straightforward to implement new ideas without having to impose restrictive
   assumptions about the underlying model.
 * Enables seamless integration with deep and/or convolutional architectures in PyTorch.
-* Has first-class support for state-of-the art probabilistic models in
-  [GPyTorch](http://www.gpytorch.ai/), including support for multi-task Gaussian
-  Processes (GPs) deep kernel learning, deep GPs, and approximate inference.
 
 
 #### Target Audience
