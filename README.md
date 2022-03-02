@@ -1,6 +1,4 @@
-<a href="https://CurveTorch.org">
-  <img width="350" src="https://CurveTorch.org/img/CurveTorch_logo_lockup.png" alt="CurveTorch Logo" />
-</a>
+<img width="350" src="curvetorch_logo_lockup.png" alt="CurveTorch Logo" />
 
 <hr/>
 
