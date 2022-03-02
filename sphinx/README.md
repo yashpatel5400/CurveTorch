@@ -1,6 +1,6 @@
 # sphinx API reference
 
-This file describes the sphinx setup for auto-generating the botorch API reference.
+This file describes the sphinx setup for auto-generating the curvetorch API reference.
 
 
 ## Installation
@@ -11,11 +11,11 @@ This file describes the sphinx setup for auto-generating the botorch API referen
 
 ## Building
 
-From the `botorch/sphinx` directory, run `make html`.
+From the `curvetorch/sphinx` directory, run `make html`.
 
-Generated HTML output can be found in the `botorch/sphinx/build` directory. The main index page is: `botorch/sphinx/build/html/index.html`
+Generated HTML output can be found in the `curvetorch/sphinx/build` directory. The main index page is: `curvetorch/sphinx/build/html/index.html`
 
 
 ## Structure
 
-`source/index.rst` contains the main index. The API reference for each module lives in its own file, e.g. `models.rst` for the `botorch.models` module.
+`source/index.rst` contains the main index. The API reference for each module lives in its own file, e.g. `models.rst` for the `curvetorch.models` module.
