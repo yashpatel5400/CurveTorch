@@ -151,19 +151,14 @@ For more details see our [Documentation](https://CurveTorch.org/docs/introductio
 ## Citing CurveTorch
 
 If you use CurveTorch, please cite the following paper:
-> [M. Balandat, B. Karrer, D. R. Jiang, S. Daulton, B. Letham, A. G. Wilson, and E. Bakshy. CurveTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization. Advances in Neural Information Processing Systems 33, 2020.](https://arxiv.org/abs/1910.06403)
 
 ```
 @inproceedings{balandat2020CurveTorch,
   title={{CurveTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization}},
-  author={Balandat, Maximilian and Karrer, Brian and Jiang, Daniel R. and Daulton, Samuel and Letham, Benjamin and Wilson, Andrew Gordon and Bakshy, Eytan},
-  booktitle = {Advances in Neural Information Processing Systems 33},
-  year={2020},
-  url = {http://arxiv.org/abs/1910.06403}
+  author={Patel, Yash},
+  year={2021},
 }
 ```
-
-See [here](https://CurveTorch.org/docs/papers) for an incomplete selection of peer-reviewed papers that build off of CurveTorch.
 
 
 ## Contributing
