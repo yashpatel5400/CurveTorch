@@ -21,9 +21,7 @@ Curvature-Aware Gradient Filtering built on PyTorch.
 
 #### Why CurveTorch ?
 CurveTorch
-* Provides a modular and easily extensible interface for composing Bayesian
-  optimization primitives, including probabilistic models, acquisition functions,
-  and optimizers.
+* Provides a modular and easily extensible interface for self-tuning optimizer
 * Harnesses the power of PyTorch, including auto-differentiation, native support
   for highly parallelized modern hardware (e.g. GPUs) using device-agnostic code,
   and a dynamic computation graph.
@@ -52,21 +50,10 @@ Optimization simply use Ax.
 **Installation Requirements**
 - Python >= 3.7
 - PyTorch >= 1.9
-- gpytorch >= 1.6
 - scipy
 
 
 ##### Installing the latest release
-
-The latest release of CurveTorch is easily installed either via
-[Anaconda](https://www.anaconda.com/distribution/#download-section) (recommended):
-```bash
-conda install CurveTorch -c pytorch -c gpytorch
-```
-or via `pip`:
-```bash
-pip install CurveTorch
-```
 
 You can customize your PyTorch installation (i.e. CUDA version, CPU only option)
 by following the [PyTorch installation instructions](https://pytorch.org/get-started/locally/).
@@ -85,9 +72,8 @@ by following the [PyTorch installation instructions](https://pytorch.org/get-sta
 If you would like to try our bleeding edge features (and don't mind potentially
 running into the occasional bug here or there), you can install the latest
 development version directly from GitHub (this will also require installing
-the current GPyTorch development version):
+the current PyTorch development version):
 ```bash
-pip install --upgrade git+https://github.com/cornellius-gp/gpytorch.git
 pip install --upgrade git+https://github.com/yashpatel5400/CurveTorch.git
 ```
 
@@ -130,33 +116,17 @@ For more details see our [Documentation](https://CurveTorch.org/docs/introductio
   fit_gpytorch_model(mll)
   ```
 
-2. Construct an acquisition function
-  ```python
-  from CurveTorch.acquisition import UpperConfidenceBound
-
-  UCB = UpperConfidenceBound(gp, beta=0.1)
-  ```
-
-3. Optimize the acquisition function
-  ```python
-  from CurveTorch.optim import optimize_acqf
-
-  bounds = torch.stack([torch.zeros(2), torch.ones(2)])
-  candidate, acq_value = optimize_acqf(
-      UCB, bounds=bounds, q=1, num_restarts=5, raw_samples=20,
-  )
-  ```
-
 
 ## Citing CurveTorch
 
 If you use CurveTorch, please cite the following paper:
 
 ```
-@inproceedings{balandat2020CurveTorch,
-  title={{CurveTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization}},
-  author={Patel, Yash},
-  year={2021},
+@article{chen2020self,
+  title={Self-tuning stochastic optimization with curvature-aware gradient filtering},
+  author={Chen, Ricky TQ and Choi, Dami and Balles, Lukas and Duvenaud, David and Hennig, Philipp},
+  year={2020},
+  publisher={PMLR}
 }
 ```
 
