@@ -25,10 +25,6 @@ CurveTorch
 * Harnesses the power of PyTorch, including auto-differentiation, native support
   for highly parallelized modern hardware (e.g. GPUs) using device-agnostic code,
   and a dynamic computation graph.
-* Supports Monte Carlo-based acquisition functions via the
-  [reparameterization trick](https://arxiv.org/abs/1312.6114), which makes it
-  straightforward to implement new ideas without having to impose restrictive
-  assumptions about the underlying model.
 * Enables seamless integration with deep and/or convolutional architectures in PyTorch.
 
 
