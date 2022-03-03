@@ -37,7 +37,7 @@ const siteConfig = {
 
   // links that will be used in the header navigation bar
   headerLinks: [
-    {doc: 'introduction', label: 'Docs'},
+    // {doc: 'introduction', label: 'Docs'},
     {href: `${baseUrl}tutorials/`, label: 'Tutorials'},
     {href: `${baseUrl}api/`, label: 'API Reference'},
     {href: 'https://github.com/yashpatel5400/CurveTorch', label: 'GitHub'},
