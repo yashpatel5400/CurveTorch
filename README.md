@@ -2,10 +2,10 @@
 
 <hr/>
 
-[![Lint](https://github.com/pytorch/CurveTorch/workflows/Lint/badge.svg)](https://github.com/pytorch/CurveTorch/actions?query=workflow%3ALint)
-[![Test](https://github.com/pytorch/CurveTorch/workflows/Test/badge.svg)](https://github.com/pytorch/CurveTorch/actions?query=workflow%3ATest)
-[![Docs](https://github.com/pytorch/CurveTorch/workflows/Docs/badge.svg)](https://github.com/pytorch/CurveTorch/actions?query=workflow%3ADocs)
-[![Tutorials](https://github.com/pytorch/CurveTorch/workflows/Tutorials/badge.svg)](https://github.com/pytorch/CurveTorch/actions?query=workflow%3ATutorials)
+[![Lint](https://github.com/yashpatel5400/CurveTorch/workflows/Lint/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ALint)
+[![Test](https://github.com/yashpatel5400/CurveTorch/workflows/Test/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ATest)
+[![Docs](https://github.com/yashpatel5400/CurveTorch/workflows/Docs/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ADocs)
+[![Tutorials](https://github.com/yashpatel5400/CurveTorch/workflows/Tutorials/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ATutorials)
 [![Codecov](https://img.shields.io/codecov/c/github/pytorch/CurveTorch.svg)](https://codecov.io/github/pytorch/CurveTorch)
 
 [![Conda](https://img.shields.io/conda/v/pytorch/CurveTorch.svg)](https://anaconda.org/pytorch/CurveTorch)
@@ -88,14 +88,14 @@ development version directly from GitHub (this will also require installing
 the current GPyTorch development version):
 ```bash
 pip install --upgrade git+https://github.com/cornellius-gp/gpytorch.git
-pip install --upgrade git+https://github.com/pytorch/CurveTorch.git
+pip install --upgrade git+https://github.com/yashpatel5400/CurveTorch.git
 ```
 
 **Manual / Dev install**
 
 Alternatively, you can do a manual install. For a basic install, run:
 ```bash
-git clone https://github.com/pytorch/CurveTorch.git
+git clone https://github.com/yashpatel5400/CurveTorch.git
 cd CurveTorch
 pip install -e .
 ```
