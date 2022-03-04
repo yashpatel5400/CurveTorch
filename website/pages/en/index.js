@@ -143,14 +143,13 @@ candidate, acq_value = optimize_acqf(
 )
 candidate  # tensor([0.4887, 0.5063])
     `;
-    const papertitle = `CurveTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization`
+    const papertitle = `Self-tuning stochastic optimization with curvature-aware gradient filtering`
     const paper_bibtex = `${pre}plaintext
-@inproceedings{balandat2020botorch,
-  title = {{CurveTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization}},
-  author = {Balandat, Maximilian and Karrer, Brian and Jiang, Daniel R. and Daulton, Samuel and Letham, Benjamin and Wilson, Andrew Gordon and Bakshy, Eytan},
-  booktitle = {Advances in Neural Information Processing Systems 33},
-  year = 2020,
-  url = {http://arxiv.org/abs/1910.06403}
+@article{chen2020self,
+  title={Self-tuning stochastic optimization with curvature-aware gradient filtering},
+  author={Chen, Ricky TQ and Choi, Dami and Balles, Lukas and Duvenaud, David and Hennig, Philipp},
+  year={2020},
+  publisher={PMLR}
 }
   `;
     //
@@ -164,10 +163,8 @@ candidate  # tensor([0.4887, 0.5063])
           <ol>
             <li>
               <h4>Install CurveTorch:</h4>
-              <a>via conda (recommended):</a>
-              <MarkdownBlock>{bash`conda install botorch -c pytorch -c gpytorch`}</MarkdownBlock>
               <a>via pip:</a>
-              <MarkdownBlock>{bash`pip install botorch`}</MarkdownBlock>
+              <MarkdownBlock>{bash`pip install --upgrade git+https://github.com/yashpatel5400/CurveTorch.git`}</MarkdownBlock>
             </li>
             <li>
               <h4>Fit a model:</h4>
