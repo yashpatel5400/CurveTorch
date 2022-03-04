@@ -1,6 +1,6 @@
-# Contributing to BoTorch
+# Contributing to CurveTorch
 
-We want to make contributing to BoTorch is as easy and transparent as possible.
+We want to make contributing to CurveTorch is as easy and transparent as possible.
 
 
 ## Development installation
@@ -9,7 +9,7 @@ To get the development installation with all the necessary dependencies for
 linting, testing, and building the documentation, run the following:
 ```bash
 git clone https://github.com/yashpatel5400/CurveTorch.git
-cd botorch
+cd curvetorch
 pip install -e .[dev]
 ```
 
@@ -18,7 +18,7 @@ pip install -e .[dev]
 
 #### Code Style
 
-BoTorch uses the [black](https://github.com/ambv/black) code formatter to
+CurveTorch uses the [black](https://github.com/ambv/black) code formatter to
 enforce a common code style across the code base. black is installed easily via
 pip using `pip install black`, and run locally by calling
 ```bash
@@ -31,7 +31,7 @@ for advanced usage).
 
 #### Import Sorting
 
-BoTorch uses [ufmt]https://github.com/omnilib/ufmt library for consistent
+CurveTorch uses [ufmt]https://github.com/omnilib/ufmt library for consistent
 sorting of imports across the codebase. Install via `pip install ufmt`, and
 auto-sort with
 ```bash
@@ -46,7 +46,7 @@ hood ufmt also checks black code style).
 
 #### Type Hints
 
-BoTorch is fully typed using python 3.7+
+CurveTorch is fully typed using python 3.7+
 [type hints](https://www.python.org/dev/peps/pep-0484/).
 We expect any contributions to also use proper type annotations. While we
 currently do not enforce full consistency of these in our continuous integration
@@ -73,7 +73,7 @@ pytest -ra --cov=. --cov-report term-missing
 
 #### Documentation
 
-BoTorch's website is also open source, and is part of this very repository (the
+CurveTorch's website is also open source, and is part of this very repository (the
 code can be found in the [website](/website/) folder).
 It is built using [Docusaurus](https://docusaurus.io/), and consists of three
 main elements:
@@ -104,14 +104,6 @@ We actively welcome your pull requests.
    documentation builds.
 4. Ensure the test suite passes.
 5. Make sure your code passes both `black` and `flake8` formatting checks.
-6. If you haven't already, complete the Contributor License Agreement ("CLA").
-
-
-## Contributor License Agreement ("CLA")
-
-In order to accept your pull request, we need you to submit a CLA. You only need
-to do this once to work on any of Facebook's open source projects. You can
-complete your CLA here: <https://code.facebook.com/cla>
 
 
 ## Issues
@@ -126,5 +118,5 @@ outlined on that page and do not file a public issue.
 
 ## License
 
-By contributing to BoTorch, you agree that your contributions will be licensed
+By contributing to CurveTorch, you agree that your contributions will be licensed
 under the LICENSE file in the root directory of this source tree.
