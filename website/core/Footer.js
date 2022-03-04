@@ -69,11 +69,10 @@ class Footer extends React.Component {
           )}
           <div className="footerSection">
             <h5>Docs</h5>
-            <a href={this.docUrl('introduction')}>Introduction</a>
             <a href={this.docUrl('getting_started')}>Getting Started</a>
             <a href={`${this.props.config.baseUrl}tutorials/`}>Tutorials</a>
             <a href={`${this.props.config.baseUrl}api/`}>API Reference</a>
-            <a href={`https://arxiv.org/abs/1910.06403`}>Paper</a>
+            <a href={`https://arxiv.org/pdf/2011.04803.pdf`}>Paper</a>
           </div>
           <div className="footerSection">
             <h5>Legal</h5>
