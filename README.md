@@ -5,11 +5,6 @@
 [![Lint](https://github.com/yashpatel5400/CurveTorch/workflows/Lint/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ALint)
 [![Test](https://github.com/yashpatel5400/CurveTorch/workflows/Test/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ATest)
 [![Docs](https://github.com/yashpatel5400/CurveTorch/workflows/Docs/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ADocs)
-[![Tutorials](https://github.com/yashpatel5400/CurveTorch/workflows/Tutorials/badge.svg)](https://github.com/yashpatel5400/CurveTorch/actions?query=workflow%3ATutorials)
-[![Codecov](https://img.shields.io/codecov/c/github/pytorch/CurveTorch.svg)](https://codecov.io/github/pytorch/CurveTorch)
-
-[![Conda](https://img.shields.io/conda/v/pytorch/CurveTorch.svg)](https://anaconda.org/pytorch/CurveTorch)
-[![PyPI](https://img.shields.io/pypi/v/CurveTorch.svg)](https://pypi.org/project/CurveTorch)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 
