@@ -7,7 +7,7 @@
  * @format
  */
 
-// const PropTypes = require('prop-types');
+const PropTypes = require('prop-types');
 const React = require('react');
 
 function SocialFooter(props) {
@@ -31,6 +31,10 @@ function SocialFooter(props) {
     </div>
   );
 }
+
+SocialFooter.propTypes = {
+  config: PropTypes.object,
+};
 
 class Footer extends React.Component {
   docUrl(doc, language) {
