@@ -26,15 +26,10 @@ CurveTorch
 #### Target Audience
 
 The primary audience for hands-on use of CurveTorch are researchers and
-sophisticated practitioners in Bayesian Optimization and AI.
-We recommend using CurveTorch as a low-level API for implementing new algorithms
-for [Ax](https://ax.dev). Ax has been designed to be an easy-to-use platform
-for end-users, which at the same time is flexible enough for Bayesian
-Optimization researchers to plug into for handling of feature transformations,
-(meta-)data management, storage, etc.
-We recommend that end-users who are not actively doing research on Bayesian
-Optimization simply use Ax.
-
+sophisticated practitioners in Optimization and AI.
+We recommend using CurveTorch as a low-level API for optimization researchers to 
+plug into research on Stochastic Optimization with Curvature-Aware Gradient Filtering
+and related works.
 
 ## Installation
 
