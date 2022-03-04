@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
+ * Copyright (c) Yash Patel, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -108,7 +108,7 @@ class Footer extends React.Component {
           {this.props.config.copyright && (
             <span>{this.props.config.copyright}</span>
           )}{' '}
-          Copyright &copy; {currentYear} Meta Platforms Inc.
+          Copyright &copy; {currentYear} Yash Patel Inc.
         </section>
         {process.env.NODE_ENV !== 'development' &&
           <script dangerouslySetInnerHTML={{__html:`

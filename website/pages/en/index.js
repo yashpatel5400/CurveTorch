@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
+ * Copyright (c) Yash Patel, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -204,7 +204,7 @@ candidate  # tensor([0.4887, 0.5063])
             },
             {
               content:
-                'Support for scalable GPs via GPyTorch. Run code on multiple devices.',
+                'Support for scalable optimization with GPUs. Run code on multiple devices.',
               image: `${baseUrl}img/expanding_arrows.svg`,
               imageAlign: 'top',
               title: 'Scalable',
