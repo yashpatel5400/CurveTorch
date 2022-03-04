@@ -107,7 +107,7 @@ class Footer extends React.Component {
           {this.props.config.copyright && (
             <span>{this.props.config.copyright}</span>
           )}{' '}
-          Copyright &copy; {currentYear} Yash Patel Inc.
+          Copyright &copy; {currentYear} Yash Patel
         </section>
         {process.env.NODE_ENV !== 'development' &&
           <script dangerouslySetInnerHTML={{__html:`
