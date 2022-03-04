@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
 import copy
 
 from torch.optim.optimizer import Optimizer
-
-from .types import OptFloat, OptLossClosure, Params
 
 __all__ = ('CurveSGD',)
 
@@ -32,13 +35,13 @@ class CurveSGD(Optimizer):
 
     def __init__(
         self,
-        params: Params,
+        params,
         lr: float = 1e-3,
         kappa: float = 1000.0,
         xi: float = 10.0,
         small_const: float = 0.7,
         weight_decay: float = 0,
-    ) -> None:
+    ):
         if lr <= 0.0:
             raise ValueError('Invalid learning rate: {}'.format(lr))
         if weight_decay < 0:
@@ -54,7 +57,7 @@ class CurveSGD(Optimizer):
         )
         super(CurveSGD, self).__init__(params, defaults)
 
-    def step(self, closure: OptLossClosure = None) -> OptFloat:
+    def step(self, closure = None):
         r"""Performs a single optimization step.
         Arguments:
             closure: A closure that reevaluates the model and returns the loss.
