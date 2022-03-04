@@ -6,7 +6,7 @@ title: Introduction
 CurveTorch (pronounced "bow-torch" / ˈbō-tȯrch) is a library for
 [Bayesian Optimization](https://en.wikipedia.org/wiki/Bayesian_optimization)
 research built on top of [PyTorch](https://pytorch.org/), and is part of the
-PyTorch ecosystem. Read the [CurveTorch paper](https://arxiv.org/abs/1910.06403)
+PyTorch ecosystem. Read the [CurveTorch paper](https://arxiv.org/abs/2011.04803)
 [^CurveTorch] for a detailed exposition.
 
 Bayesian Optimization (BayesOpt) is an established technique for sequential
@@ -107,7 +107,7 @@ Optimization simply use Ax.
 [^CurveTorch]: M. Balandat, B. Karrer, D. R. Jiang, S. Daulton, B. Letham, A. G. Wilson,
 and E. Bakshy. CurveTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization.
 Advances in Neural Information Processing Systems 33, 2020.
-[pdf](https://arxiv.org/abs/1910.06403)
+[pdf](https://arxiv.org/abs/2011.04803)
 
 [^AutoEncVarBayes]: D. P. Kingma and M. Welling. Auto-Encoding Variational Bayes.
 ArXiv e-prints, [arXiv:1312.6114](https://arxiv.org/abs/1312.6114), Dec 2013.

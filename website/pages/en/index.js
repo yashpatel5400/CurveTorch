@@ -221,7 +221,7 @@ candidate  # tensor([0.4887, 0.5063])
         style={{textAlign: 'center'}}>
         <h2>References</h2>
         <Container>
-          <a href={`https://arxiv.org/abs/1910.06403`}>{papertitle}</a>
+          <a href={`https://arxiv.org/abs/2011.04803`}>{papertitle}</a>
           <MarkdownBlock>{paper_bibtex}</MarkdownBlock>
           Check out some <a href={`${baseUrl}docs/papers`}>other papers using CurveTorch</a>.
         </Container>
