@@ -64,12 +64,19 @@ def test_basic_nn_modeloptimizer_config(optimizer_config):
     optimizer_class, config, iterations = optimizer_config
     optimizer = optimizer_class(model.parameters(), **config)
     init_loss = None
+
     for _ in range(iterations):
-        y_pred = model(x_data)
-        loss = loss_fn(y_pred, y_data)
         if init_loss is None:
+            y_pred = model(x_data)
+            loss = loss_fn(y_pred, y_data)
             init_loss = loss
-        optimizer.zero_grad()
-        loss.backward(create_graph=True)
-        optimizer.step()
+            
+        def closure():
+            y_pred = model(x_data)
+            loss = loss_fn(y_pred, y_data)
+            optimizer.zero_grad()
+            loss.backward(create_graph=True)
+            return loss
+        optimizer.step(closure)
+
     assert init_loss.item() > 2.0 * loss.item()

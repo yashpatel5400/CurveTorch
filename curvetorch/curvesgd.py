@@ -56,7 +56,7 @@ class CurveSGD(Optimizer):
         loss = None
         if closure is not None:
             loss = closure()
-
+        
         for group in self.param_groups:
             beta_r = group['beta_r']
             beta_sigma = group['beta_sigma']
@@ -66,7 +66,7 @@ class CurveSGD(Optimizer):
                 if p.grad is None:
                     continue
                 d_p = p.grad.data
-                
+
                 # param_state = self.state[p]
                 # if 'momentum_buffer' not in param_state:
                 #     param_state['momentum_buffer'] = copy.deepcopy(p.data)
