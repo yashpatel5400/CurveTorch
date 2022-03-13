@@ -6,7 +6,7 @@
 import pytest
 import torch
 
-from curvetorch import *
+import curvetorch as curve
 
 
 def rosenbrock(tensor):
@@ -41,11 +41,6 @@ cases = [
 def ids(v):
     n = '{} {}'.format(v[0].__name__, v[1:])
     return n
-
-
-def build_lookahead(*a, **kw):
-    base = optim.Yogi(*a, **kw)
-    return optim.Lookahead(base)
 
 
 optimizers = [
