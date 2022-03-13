@@ -28,19 +28,15 @@ class CurveSGD(Optimizer):
         >>> loss_fn(model(input), target).backward()
         >>> optimizer.step()
      __ https://arxiv.org/abs/1704.08227
-     __ https://arxiv.org/abs/1803.05591
-    Note:
-        Reference code: https://github.com/rahulkidambi/CurveSGD
     """
 
     def __init__(
         self,
         params,
         lr: float = 1e-3,
-        kappa: float = 1000.0,
-        xi: float = 10.0,
-        small_const: float = 0.7,
-        weight_decay: float = 0,
+        beta_r=0.999,
+        beta_sigma=0.999,
+        beta_alpha=0.999,
     ):
         if lr <= 0.0:
             raise ValueError('Invalid learning rate: {}'.format(lr))
@@ -50,10 +46,9 @@ class CurveSGD(Optimizer):
             )
         defaults = dict(
             lr=lr,
-            kappa=kappa,
-            xi=xi,
-            small_const=small_const,
-            weight_decay=weight_decay,
+            beta_r=beta_r,
+            beta_sigma=beta_sigma,
+            beta_alpha=beta_alpha,
         )
         super(CurveSGD, self).__init__(params, defaults)
 
