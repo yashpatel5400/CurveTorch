@@ -58,9 +58,9 @@ class CurveSGD(Optimizer):
             loss = closure()
 
         for group in self.param_groups:
-            beta_r = ['beta_r']
-            beta_sigma = ['beta_sigma']
-            beta_alpha = ['beta_alpha']
+            beta_r = group['beta_r']
+            beta_sigma = group['beta_sigma']
+            beta_alpha = group['beta_alpha']
 
             for p in group['params']:
                 if p.grad is None:
