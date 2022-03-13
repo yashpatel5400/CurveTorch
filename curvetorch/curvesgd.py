@@ -56,7 +56,7 @@ class CurveSGD(Optimizer):
         loss = None
         if closure is not None:
             loss = closure()
-        
+
         for group in self.param_groups:
             beta_r = group['beta_r']
             beta_sigma = group['beta_sigma']
@@ -67,9 +67,50 @@ class CurveSGD(Optimizer):
                     continue
                 d_p = p.grad.data
 
-                # param_state = self.state[p]
-                # if 'momentum_buffer' not in param_state:
-                #     param_state['momentum_buffer'] = copy.deepcopy(p.data)
+                if grad.is_sparse:
+                    msg = (
+                        'CurveSGD does not support sparse gradients, '
+                        'please consider SparseAdam instead'
+                    )
+                    raise RuntimeError(msg)
+
+                state = self.state[p]
+
+                # State initialization
+                if len(state) == 0:
+                    state['step'] = 0
+
+                    # Exponential moving average of function values
+                    state['func_exp_avg'] = torch.zeros_like(
+                        loss, memory_format=torch.preserve_format
+                    )
+                    state['func_exp_var'] = torch.zeros_like(
+                        loss, memory_format=torch.preserve_format
+                    )
+
+                    # Exponential moving average of gradient values
+                    state['grad_exp_avg'] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+                    state['grad_exp_var'] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+
+                func_exp_avg, func_exp_var, grad_exp_avg, grad_exp_var = (
+                    state['func_exp_avg'],
+                    state['func_exp_var'],
+                    state['grad_exp_avg'],
+                    state['grad_exp_var'],
+                )
+
+                # Decay the first and second moment running average coefficient
+                func_exp_avg.mul_(beta_r).add_(loss, alpha=1 - beta_r)
+                func_exp_var.mul_(beta_r).addcmul_(loss, loss, value=1 - beta_r)
+
+                grad_exp_avg.mul_(beta_sigma).add_(grad, alpha=1 - beta_sigma)
+                grad_exp_var.mul_(beta_sigma).addcmul_(grad, grad, value=1 - beta_sigma)
+
+                state['step'] += 1
                 
                 p.data.add_(d_p, alpha=-group['lr'])
 
