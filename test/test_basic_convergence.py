@@ -44,7 +44,7 @@ def ids(v):
 
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.002}, 900),
+    (curve.CurveSGD, {'lr': 0.002}, 1500),
 ]
 
 
