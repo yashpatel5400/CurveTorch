@@ -130,12 +130,12 @@ class CurveSGD(Optimizer):
                     )
 
                     # Kalman Filter states
-                    state['m_0'] = torch.zeros_like(
+                    state['m_t'] = torch.zeros_like(
                         p, memory_format=torch.preserve_format
                     )
-                    state['P_0'] = 1e4
-                    state['u_0'] = 0
-                    state['s_0'] = 1e4
+                    state['P_t'] = 1e4
+                    state['u_t'] = 0
+                    state['s_t'] = 1e4
 
                 state['step'] += 1
                 
@@ -170,11 +170,22 @@ class CurveSGD(Optimizer):
                 Q_t = hess_exp_var
 
                 # Kalman Filter update
-                m_0 = state['m_0']
-                P_0 = state['P_0']
-                u_0 = state['u_0']
-                s_0 = state['s_0']
+                m_t = state['m_t']
+                P_t = state['P_t']
+                u_t = state['u_t']
+                s_t = state['s_t']
 
-                p.data.add_(d_p, alpha=-group['lr'])
+                m_t_minus = m_t + h_delta
+                P_t_minus = P_t + Q_t 
+                K_t = P_t_minus.mul((P_t_minus + Sigma_t).inverse())
+                m_t = (torch.eye(p) - K_t).mul(m_t) + K_t.mul(g_t)
+                P_t = (torch.eye(p) - K_t).mul(P_t_minus).mul((torch.eye(p) - K_t).transpose()) \
+                        + K_t.mul(Sigma_t).mul(K_t.transpose())
+
+                state['m_t'] = m_t
+                state['P_t'] = P_t
+
+                # Use filtered gradient estimate for update step
+                p.data.add_(m_t, alpha=-group['lr'])
 
         return loss
