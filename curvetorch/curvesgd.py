@@ -48,6 +48,31 @@ class CurveSGD(Optimizer):
         )
         super(CurveSGD, self).__init__(params, defaults)
 
+    def get_hessian_prod(self, params, grads, delta):
+        """Get an estimate of Hessian product.
+        This is done by computing the Hessian vector product with the stored delta
+        vector at the current gradient point, to estimate Hessian trace by
+        computing the gradient of <gradsH, s>.
+        """
+
+        # Check backward was called with create_graph set to True
+        for i, grad in enumerate(grads):
+            if grad.grad_fn is None:
+                msg = (
+                    'Gradient tensor {:} does not have grad_fn. When '
+                    'calling loss.backward(), make sure the option '
+                    'create_graph is set to True.'
+                )
+                raise RuntimeError(msg.format(i))
+
+        # this is for distributed setting with single node and multi-gpus,
+        # for multi nodes setting, we have not support it yet.
+        hvs = torch.autograd.grad(
+            grads, params, grad_outputs=delta, only_inputs=True, retain_graph=True
+        )
+
+        return hvs
+
     def step(self, closure = None):
         r"""Performs a single optimization step.
         Arguments:
@@ -96,12 +121,31 @@ class CurveSGD(Optimizer):
                         p, memory_format=torch.preserve_format
                     )
 
-                func_exp_avg, func_exp_var, grad_exp_avg, grad_exp_var = (
+                    # Exponential moving average of gradient values
+                    state['hess_exp_avg'] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+                    state['hess_exp_var'] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+
+                    state['delta'] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+
+                state['step'] += 1
+                
+                func_exp_avg, func_exp_var, grad_exp_avg, grad_exp_var, hess_exp_avg, hess_exp_var = (
                     state['func_exp_avg'],
                     state['func_exp_var'],
                     state['grad_exp_avg'],
                     state['grad_exp_var'],
+                    state['hess_exp_avg'],
+                    state['hess_exp_var'],
                 )
+
+                h_delta = self.get_hessian_prod(params, grads, delta)
+                beta_delta = 1 - 1 / state['step']
 
                 # Decay the first and second moment running average coefficient
                 func_exp_avg.mul_(beta_r).add_(loss, alpha=1 - beta_r)
@@ -110,8 +154,9 @@ class CurveSGD(Optimizer):
                 grad_exp_avg.mul_(beta_sigma).add_(grad, alpha=1 - beta_sigma)
                 grad_exp_var.mul_(beta_sigma).addcmul_(grad, grad, value=1 - beta_sigma)
 
-                state['step'] += 1
-                
+                hess_exp_avg.mul_(beta_delta).add_(h_delta, alpha=1 - beta_delta)
+                hess_exp_var.mul_(beta_delta).addcmul_(h_delta, h_delta, value=1 - beta_delta)
+
                 p.data.add_(d_p, alpha=-group['lr'])
 
         return loss
