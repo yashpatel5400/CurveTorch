@@ -17,17 +17,13 @@ class CurveSGD(Optimizer):
         params: iterable of parameters to optimize or dicts defining
             parameter groups
         lr: learning rate (default: 1e-3)
-        kappa: ratio of long to short step (default: 1000)
-        xi: statistical advantage parameter (default: 10)
-        small_const: any value <=1 (default: 0.7)
-        weight_decay: weight decay (L2 penalty) (default: 0)
     Example:
         >>> import torch_optimizer as optim
         >>> optimizer = optim.CurveSGD(model.parameters(), lr=0.1)
         >>> optimizer.zero_grad()
         >>> loss_fn(model(input), target).backward()
         >>> optimizer.step()
-     __ https://arxiv.org/abs/1704.08227
+     __ https://arxiv.org/pdf/2011.04803.pdf
     """
 
     def __init__(
@@ -133,6 +129,14 @@ class CurveSGD(Optimizer):
                         p, memory_format=torch.preserve_format
                     )
 
+                    # Kalman Filter states
+                    state['m_0'] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+                    state['P_0'] = 1e4
+                    state['u_0'] = 0
+                    state['s_0'] = 1e4
+
                 state['step'] += 1
                 
                 func_exp_avg, func_exp_var, grad_exp_avg, grad_exp_var, hess_exp_avg, hess_exp_var = (
@@ -145,7 +149,7 @@ class CurveSGD(Optimizer):
                 )
 
                 h_delta = self.get_hessian_prod(params, grads, delta)
-                beta_delta = 1 - 1 / state['step']
+                beta_delta = 1 - 1 / state['step'] # non-smoothed running average/variance
 
                 # Decay the first and second moment running average coefficient
                 func_exp_avg.mul_(beta_r).add_(loss, alpha=1 - beta_r)
@@ -156,6 +160,20 @@ class CurveSGD(Optimizer):
 
                 hess_exp_avg.mul_(beta_delta).add_(h_delta, alpha=1 - beta_delta)
                 hess_exp_var.mul_(beta_delta).addcmul_(h_delta, h_delta, value=1 - beta_delta)
+
+                # Match notation from paper for convenience
+                y_t = func_exp_avg
+                r_t = func_exp_var
+                g_t = grad_exp_avg
+                Sigma_t = grad_exp_var
+                b_t = hess_exp_avg
+                Q_t = hess_exp_var
+
+                # Kalman Filter update
+                m_0 = state['m_0']
+                P_0 = state['P_0']
+                u_0 = state['u_0']
+                s_0 = state['s_0']
 
                 p.data.add_(d_p, alpha=-group['lr'])
 
