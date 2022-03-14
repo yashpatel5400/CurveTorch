@@ -50,7 +50,7 @@ def ids(v):
     return '{} {}'.format(v[0].__name__, v[1:])
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.002}, 5000),
+    (curve.CurveSGD, {'lr': 0.002}, 8000),
 ]
 
 
@@ -70,7 +70,7 @@ def test_basic_nn_modeloptimizer_config(optimizer_config):
             y_pred = model(x_data)
             loss = loss_fn(y_pred, y_data)
             init_loss = loss
-            
+
         def closure():
             y_pred = model(x_data)
             loss = loss_fn(y_pred, y_data)
@@ -78,5 +78,8 @@ def test_basic_nn_modeloptimizer_config(optimizer_config):
             loss.backward(create_graph=True)
             return loss
         optimizer.step(closure)
+
+    y_pred = model(x_data)
+    loss = loss_fn(y_pred, y_data)
 
     assert init_loss.item() > 2.0 * loss.item()
