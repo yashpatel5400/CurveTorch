@@ -50,7 +50,7 @@ def ids(v):
     return '{} {}'.format(v[0].__name__, v[1:])
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.002}, 8000),
+    (curve.CurveSGD, {'lr': 0.002}, 10000),
 ]
 
 

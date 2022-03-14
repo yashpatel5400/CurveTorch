@@ -44,7 +44,7 @@ def ids(v):
 
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.002}, 1500),
+    (curve.CurveSGD, {'lr': 0.002}, 10000),
 ]
 
 
@@ -58,10 +58,12 @@ def test_benchmark_function(case, optimizer_config):
     x_min = torch.Tensor(min_loc)
     optimizer = optimizer_class([x], **config)
     for _ in range(iterations):
-        optimizer.zero_grad()
-        f = func(x)
-        f.backward(retain_graph=True, create_graph=True)
-        optimizer.step()
+        def closure():
+            optimizer.zero_grad()
+            f = func(x)
+            f.backward(retain_graph=True, create_graph=True)
+            return f
+        optimizer.step(closure)
     assert torch.allclose(x, x_min, atol=0.001)
 
     name = optimizer.__class__.__name__
