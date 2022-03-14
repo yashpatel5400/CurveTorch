@@ -161,13 +161,16 @@ class CurveSGD(Optimizer):
                 hess_exp_avg.mul_(beta_delta).add_(h_delta, alpha=1 - beta_delta)
                 hess_exp_var.mul_(beta_delta).addcmul_(h_delta, h_delta, value=1 - beta_delta)
 
+                sigma_t = torch.mean(grad_exp_var)
+                q_t = torch.mean(hess_exp_var)
+
                 # Match notation from paper for convenience
                 y_t = func_exp_avg
                 r_t = func_exp_var
                 g_t = grad_exp_avg
-                Sigma_t = grad_exp_var
+                Sigma_t = torch.eye(p).mul(sigma_t)
                 b_t = hess_exp_avg
-                Q_t = hess_exp_var
+                Q_t = torch.eye(p).mul(q_t)
 
                 # Kalman Filter update
                 m_t = state['m_t']
