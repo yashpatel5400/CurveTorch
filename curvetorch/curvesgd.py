@@ -181,7 +181,7 @@ class CurveSGD(Optimizer):
                 P_t_minus = P_t + Q_t 
                 K_t = P_t_minus.matmul((P_t_minus + Sigma_t).inverse())
 
-                m_t = (torch.eye(p.grad.size()[0]) - K_t).matmul(m_t) + K_t.matmul(g_t)
+                m_t = (torch.eye(p.grad.size()[0]) - K_t).matmul(m_t_minus) + K_t.matmul(g_t)
                 P_t = (torch.eye(p.grad.size()[0]) - K_t).matmul(P_t_minus).matmul((torch.eye(p.grad.size()[0]) - K_t).t()) \
                         + K_t.matmul(Sigma_t).matmul(K_t.t())
 

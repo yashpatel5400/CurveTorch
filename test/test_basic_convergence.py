@@ -5,6 +5,7 @@
 
 import pytest
 import torch
+import matplotlib.pyplot as plt
 
 import curvetorch as curve
 
@@ -32,9 +33,9 @@ def beale(tensor):
 
 
 cases = [
-    (rosenbrock, (1.5, 1.5), (1, 1)),
+    # (rosenbrock, (1.5, 1.5), (1, 1)),
     (quadratic, (1.5, 1.5), (0, 0)),
-    (beale, (1.5, 1.5), (3, 0.5)),
+    # (beale, (1.5, 1.5), (3, 0.5)),
 ]
 
 
@@ -44,7 +45,7 @@ def ids(v):
 
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.002}, 10000),
+    (curve.CurveSGD, {'lr': 0.001}, 2000),
 ]
 
 
@@ -57,13 +58,18 @@ def test_benchmark_function(case, optimizer_config):
     x = torch.Tensor(initial_state).requires_grad_(True)
     x_min = torch.Tensor(min_loc)
     optimizer = optimizer_class([x], **config)
+    fs = []
     for _ in range(iterations):
+        fs.append(func(x))
         def closure():
             optimizer.zero_grad()
             f = func(x)
             f.backward(retain_graph=True, create_graph=True)
             return f
         optimizer.step(closure)
+    plt.plot(range(iterations), fs)
+    plt.show()
+
     assert torch.allclose(x, x_min, atol=0.001)
 
     name = optimizer.__class__.__name__

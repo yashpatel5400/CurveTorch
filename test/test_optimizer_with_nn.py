@@ -54,32 +54,32 @@ optimizers = [
 ]
 
 
-@pytest.mark.parametrize('optimizer_config', optimizers, ids=ids)
-def test_basic_nn_modeloptimizer_config(optimizer_config):
-    torch.manual_seed(42)
-    x_data, y_data = make_dataset()
-    model = LogisticRegression()
+# @pytest.mark.parametrize('optimizer_config', optimizers, ids=ids)
+# def test_basic_nn_modeloptimizer_config(optimizer_config):
+#     torch.manual_seed(42)
+#     x_data, y_data = make_dataset()
+#     model = LogisticRegression()
 
-    loss_fn = nn.BCELoss()
-    optimizer_class, config, iterations = optimizer_config
-    optimizer = optimizer_class(model.parameters(), **config)
-    init_loss = None
+#     loss_fn = nn.BCELoss()
+#     optimizer_class, config, iterations = optimizer_config
+#     optimizer = optimizer_class(model.parameters(), **config)
+#     init_loss = None
 
-    for _ in range(iterations):
-        if init_loss is None:
-            y_pred = model(x_data)
-            loss = loss_fn(y_pred, y_data)
-            init_loss = loss
+#     for _ in range(iterations):
+#         if init_loss is None:
+#             y_pred = model(x_data)
+#             loss = loss_fn(y_pred, y_data)
+#             init_loss = loss
 
-        def closure():
-            y_pred = model(x_data)
-            loss = loss_fn(y_pred, y_data)
-            optimizer.zero_grad()
-            loss.backward(create_graph=True)
-            return loss
-        optimizer.step(closure)
+#         def closure():
+#             y_pred = model(x_data)
+#             loss = loss_fn(y_pred, y_data)
+#             optimizer.zero_grad()
+#             loss.backward(create_graph=True)
+#             return loss
+#         optimizer.step(closure)
 
-    y_pred = model(x_data)
-    loss = loss_fn(y_pred, y_data)
+#     y_pred = model(x_data)
+#     loss = loss_fn(y_pred, y_data)
 
-    assert init_loss.item() > 2.0 * loss.item()
+#     assert init_loss.item() > 2.0 * loss.item()
