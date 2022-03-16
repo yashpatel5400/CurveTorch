@@ -147,7 +147,7 @@ class CurveSGD(Optimizer):
                 hess_exp_var = state['hess_exp_var']
                 delta_t = state['delta_t']
 
-                h_delta = self.get_hessian_prod(p, p.grad, delta_t)
+                B_delta = self.get_hessian_prod(p, p.grad, delta_t)
                 beta_delta = 1 - 1 / state['t'] # non-smoothed running average/variance
 
                 # Decay the first and second moment running average coefficient
@@ -157,8 +157,8 @@ class CurveSGD(Optimizer):
                 grad_exp_avg.mul_(beta_sigma).add_(p.grad, alpha=1 - beta_sigma)
                 grad_exp_var.mul_(beta_sigma).addcmul_(p.grad, p.grad, value=1 - beta_sigma)
 
-                hess_exp_avg.mul_(beta_delta).add_(h_delta, alpha=1 - beta_delta)
-                hess_exp_var.mul_(beta_delta).addcmul_(h_delta, h_delta, value=1 - beta_delta)
+                hess_exp_avg.mul_(beta_delta).add_(B_delta, alpha=1 - beta_delta)
+                hess_exp_var.mul_(beta_delta).addcmul_(B_delta, B_delta, value=1 - beta_delta)
 
                 sigma_t = torch.mean(grad_exp_var)
                 q_t = torch.mean(hess_exp_var)
@@ -171,13 +171,25 @@ class CurveSGD(Optimizer):
                 b_t = hess_exp_avg
                 Q_t = torch.eye(p.grad.size()[0]).mul(q_t)
 
-                # Kalman Filter update
-                m_t = state['m_t']
-                P_t = state['P_t']
+                # Kalman Filter update for f
                 u_t = state['u_t']
                 s_t = state['s_t']
+                m_t = state['m_t']
+                P_t = state['P_t']
 
-                m_t_minus = m_t + h_delta
+                # steps for Kalman filter
+                # compute u_t_minus
+                u_t_minus = u_t + m_t.t().matmul(delta_t) + 1 / 2 * delta_t.t().matmul(B_delta)
+                c_t = s_t + delta_t.t().matmul(P_t).matmul(delta_t) + 1 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t) + r_t
+                lambda_t = max((y_t - u_t_minus) ** 2 - c_t, 0)
+                s_t_minus = lambda_t + c_t - r_t
+
+                mix_t = s_t_minus / (s_t_minus + r_t)
+                u_t = (1 - mix_t) * u_t_minus + mix_t * y_t
+                s_t = (1 - mix_t) ** 2 * s_t_minus + mix_t ** 2 * r_t
+
+                # Kalman Filter update for grad f
+                m_t_minus = m_t + B_delta
                 P_t_minus = P_t + Q_t 
                 K_t = P_t_minus.matmul((P_t_minus + Sigma_t).inverse())
 
@@ -187,6 +199,8 @@ class CurveSGD(Optimizer):
 
                 delta_t = m_t.mul(group['lr'])
 
+                state['u_t'] = u_t
+                state['s_t'] = s_t
                 state['m_t'] = m_t
                 state['P_t'] = P_t
                 state['delta_t'] = delta_t
