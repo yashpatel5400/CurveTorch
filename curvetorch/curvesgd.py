@@ -8,6 +8,9 @@ import copy
 import torch
 from torch.optim.optimizer import Optimizer
 
+import numpy as np
+from scipy.optimize import minimize
+
 __all__ = ('CurveSGD',)
 
 
@@ -50,6 +53,11 @@ class CurveSGD(Optimizer):
         This is done by computing the Hessian vector product with the stored delta
         vector at the current gradient point, to estimate Hessian trace by
         computing the gradient of <gradsH, s>.
+        Arguments:
+            params: iterable of parameters to optimize or dicts defining
+                parameter groups
+            grads: gradient of parameters
+            delta: vector to be multiplied against the Hessian (right multiplied)
         """
 
         # Check backward was called with create_graph set to True
@@ -68,6 +76,54 @@ class CurveSGD(Optimizer):
         )
 
         return hvs[0]
+
+    def _get_prob_improve_num_den(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        alpha = alpha[0]
+        numerator = -alpha * delta_t.matmul(m_t) + alpha ** 2 / 2 * delta_t.t().matmul(B_delta)
+        denominator = 2 * s_t + alpha ** 2 * delta_t.t().matmul(P_t).matmul(delta_t) \
+            + alpha ** 4 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t)
+        numerator = numerator.detach().numpy()
+        denominator = np.sqrt(denominator.detach().numpy())
+        return numerator, denominator
+
+    def prob_improve(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        """Get an estimate of improvement probability assuming alpha step size.
+        This is done as a subroutine procedure to determine the optimal
+        step size within after running filtering on the function and gradient values.
+        Intended to be used in conjunction with an optimization procedure (i.e scipy.optimize)
+        assuming all parameters fixed except alpha.
+        Arguments:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+        """
+        numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        return numerator / denominator
+
+    def prob_improve_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        """Get an estimate of improvement probability gradient. See prob_improve for docs
+        Arguments:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+        """
+        numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        alpha = alpha[0]
+        numerator_grad = delta_t.matmul(m_t) + alpha * delta_t.t().matmul(B_delta)
+        denominator_grad = 1 / (2 * denominator) * (2 * alpha * delta_t.t().matmul(P_t).matmul(delta_t) \
+            + alpha ** 3 * delta_t.t().matmul(Q_t).matmul(delta_t))
+        numerator_grad = numerator_grad.detach().numpy()
+        denominator_grad = denominator_grad.detach().numpy()
+
+        return (denominator * numerator_grad - numerator * denominator_grad) / denominator ** 2
 
     def step(self, closure = None):
         r"""Performs a single optimization step.
@@ -197,6 +253,10 @@ class CurveSGD(Optimizer):
                 P_t = (torch.eye(p.grad.size()[0]) - K_t).matmul(P_t_minus).matmul((torch.eye(p.grad.size()[0]) - K_t).t()) \
                         + K_t.matmul(Sigma_t).matmul(K_t.t())
 
+                prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+                prob_improve_grad_closure = lambda alpha : self.prob_improve_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+                lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS')
+                
                 delta_t = m_t.mul(group['lr'])
 
                 state['u_t'] = u_t
