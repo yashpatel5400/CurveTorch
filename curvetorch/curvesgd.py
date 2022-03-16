@@ -117,7 +117,7 @@ class CurveSGD(Optimizer):
         """
         numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
         alpha = alpha[0]
-        numerator_grad = delta_t.matmul(m_t) + alpha * delta_t.t().matmul(B_delta)
+        numerator_grad = -delta_t.t().matmul(m_t) + alpha * delta_t.t().matmul(B_delta)
         denominator_grad = 1 / (2 * denominator) * (2 * alpha * delta_t.t().matmul(P_t).matmul(delta_t) \
             + alpha ** 3 * delta_t.t().matmul(Q_t).matmul(delta_t))
         numerator_grad = numerator_grad.detach().numpy()
@@ -200,15 +200,15 @@ class CurveSGD(Optimizer):
                 hess_exp_var = state['hess_exp_var']
                 delta_t = state['delta_t']
 
+                B_delta = self.get_hessian_prod(p, p.grad, delta_t)
+                
                 if state['t'] != 0:
                     beta_delta = 1 - 1 / state['t'] # non-smoothed running average/variance
 
                     func_exp_avg, func_exp_var = self.mean_var_ewa(func_exp_avg, func_exp_var, loss, beta_r)
-                    grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, loss, beta_sigma)
-                    hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, loss, beta_delta)
+                    grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, p.grad, beta_sigma)
+                    hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, B_delta, beta_delta)
 
-                B_delta = self.get_hessian_prod(p, p.grad, delta_t)
-                
                 sigma_t = torch.mean(grad_exp_var)
                 q_t = torch.mean(hess_exp_var)
 
