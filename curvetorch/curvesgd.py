@@ -83,7 +83,7 @@ class CurveSGD(Optimizer):
         denominator = 2 * s_t + alpha ** 2 * delta_t.t().matmul(P_t).matmul(delta_t) \
             + alpha ** 4 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t)
         numerator = numerator.detach().numpy()
-        denominator = np.sqrt(denominator.detach().numpy())
+        denominator = np.sqrt(denominator.detach().numpy())[0]
         return numerator, denominator
 
     def prob_improve(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
@@ -125,6 +125,13 @@ class CurveSGD(Optimizer):
 
         return (denominator * numerator_grad - numerator * denominator_grad) / denominator ** 2
 
+    def mean_var_ewa(self, ema, emvar, x, beta):
+        alpha = 1 - beta
+        delta = x - ema
+        ema_new = ema.add(delta.mul(alpha))
+        emvar_new = emvar.add(delta.mul(delta).mul(alpha)).mul(1 - alpha)
+        return ema_new, emvar_new
+
     def step(self, closure = None):
         r"""Performs a single optimization step.
         Arguments:
@@ -157,31 +164,23 @@ class CurveSGD(Optimizer):
                 if len(state) == 0:
                     state['t'] = 0
 
-                    # Exponential moving average of function values
-                    state['func_exp_avg'] = torch.zeros_like(
-                        loss, memory_format=torch.preserve_format
-                    )
-                    state['func_exp_var'] = torch.zeros_like(
-                        loss, memory_format=torch.preserve_format
-                    )
-
-                    # Exponential moving average of gradient values
-                    state['grad_exp_avg'] = torch.zeros_like(
+                    state['delta_t'] = torch.zeros_like(
                         p, memory_format=torch.preserve_format
                     )
+
+                    # Exponential moving average of function values
+                    state['func_exp_avg'] = loss.clone()
+                    state['func_exp_var'] = torch.zeros((1))
+
+                    # Exponential moving average of gradient values
+                    state['grad_exp_avg'] = p.grad.clone()
                     state['grad_exp_var'] = torch.zeros_like(
                         p, memory_format=torch.preserve_format
                     )
 
-                    # Exponential moving average of gradient values
-                    state['hess_exp_avg'] = torch.zeros_like(
-                        p, memory_format=torch.preserve_format
-                    )
+                    # Exponential moving average of Hessian values
+                    state['hess_exp_avg'] = self.get_hessian_prod(p, p.grad, state['delta_t']).clone()
                     state['hess_exp_var'] = torch.zeros_like(
-                        p, memory_format=torch.preserve_format
-                    )
-
-                    state['delta_t'] = torch.zeros_like(
                         p, memory_format=torch.preserve_format
                     )
 
@@ -193,8 +192,6 @@ class CurveSGD(Optimizer):
                     state['u_t'] = 0
                     state['s_t'] = 1e4
 
-                state['t'] += 1
-                
                 func_exp_avg = state['func_exp_avg']
                 func_exp_var = state['func_exp_var']
                 grad_exp_avg = state['grad_exp_avg']
@@ -203,19 +200,15 @@ class CurveSGD(Optimizer):
                 hess_exp_var = state['hess_exp_var']
                 delta_t = state['delta_t']
 
+                if state['t'] != 0:
+                    beta_delta = 1 - 1 / state['t'] # non-smoothed running average/variance
+
+                    func_exp_avg, func_exp_var = self.mean_var_ewa(func_exp_avg, func_exp_var, loss, beta_r)
+                    grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, loss, beta_sigma)
+                    hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, loss, beta_delta)
+
                 B_delta = self.get_hessian_prod(p, p.grad, delta_t)
-                beta_delta = 1 - 1 / state['t'] # non-smoothed running average/variance
-
-                # Decay the first and second moment running average coefficient
-                func_exp_avg.mul_(beta_r).add_(loss, alpha=1 - beta_r)
-                func_exp_var.mul_(beta_r).addcmul_(loss, loss, value=1 - beta_r)
-
-                grad_exp_avg.mul_(beta_sigma).add_(p.grad, alpha=1 - beta_sigma)
-                grad_exp_var.mul_(beta_sigma).addcmul_(p.grad, p.grad, value=1 - beta_sigma)
-
-                hess_exp_avg.mul_(beta_delta).add_(B_delta, alpha=1 - beta_delta)
-                hess_exp_var.mul_(beta_delta).addcmul_(B_delta, B_delta, value=1 - beta_delta)
-
+                
                 sigma_t = torch.mean(grad_exp_var)
                 q_t = torch.mean(hess_exp_var)
 
@@ -255,15 +248,28 @@ class CurveSGD(Optimizer):
 
                 prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
                 prob_improve_grad_closure = lambda alpha : self.prob_improve_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
-                lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS')
-                
-                delta_t = m_t.mul(group['lr'])
+                if state['t'] == 0:
+                    lr = group['lr']
+                else:
+                    lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS')
+                    print(lr)
 
+                delta_t = m_t.mul(lr)
+
+                state['t'] += 1
+                
                 state['u_t'] = u_t
                 state['s_t'] = s_t
                 state['m_t'] = m_t
                 state['P_t'] = P_t
-                state['delta_t'] = delta_t
+
+                state['func_exp_avg'] = func_exp_avg
+                state['func_exp_var'] = func_exp_var
+                state['grad_exp_avg'] = grad_exp_avg
+                state['grad_exp_var'] = grad_exp_var
+                state['hess_exp_avg'] = hess_exp_avg
+                state['hess_exp_var'] = hess_exp_var
+                state['delta_t']      = delta_t
 
                 # Use filtered gradient estimate for update step
                 p.data.sub_(delta_t)
