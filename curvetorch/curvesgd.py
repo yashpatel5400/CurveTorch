@@ -258,8 +258,9 @@ class CurveSGD(Optimizer):
                 if state['t'] == 0:
                     lr = group['lr']
                 else:
-                    lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS').x[0]
-                
+                    lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS')
+                    lr = lr.x[0]
+                    
                 delta_t = m_t.mul(lr)
 
                 state['t'] += 1
