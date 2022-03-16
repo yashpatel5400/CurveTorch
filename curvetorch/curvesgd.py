@@ -104,6 +104,12 @@ class CurveSGD(Optimizer):
         numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
         return numerator / denominator
 
+    def prob_improve_num_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        eps = 1e-4
+        f_plus = self.prob_improve(alpha + eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        f_minus = self.prob_improve(alpha - eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        return (f_plus - f_minus) / (2 * eps)
+
     def prob_improve_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
         """Get an estimate of improvement probability gradient. See prob_improve for docs
         Arguments:
@@ -248,12 +254,12 @@ class CurveSGD(Optimizer):
 
                 prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
                 prob_improve_grad_closure = lambda alpha : self.prob_improve_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+                
                 if state['t'] == 0:
                     lr = group['lr']
                 else:
-                    lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS')
-                    print(lr)
-
+                    lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS').x[0]
+                
                 delta_t = m_t.mul(lr)
 
                 state['t'] += 1
