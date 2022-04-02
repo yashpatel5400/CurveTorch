@@ -211,7 +211,6 @@ candidate  # tensor([0.4887, 0.5063])
         <Container>
           <a href={`https://arxiv.org/abs/2011.04803`}>{papertitle}</a>
           <MarkdownBlock>{paper_bibtex}</MarkdownBlock>
-          Check out some <a href={`${baseUrl}docs/papers`}>other papers using CurveTorch</a>.
         </Container>
       </div>
     );
@@ -250,8 +249,8 @@ candidate  # tensor([0.4887, 0.5063])
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="landingPage mainContainer">
           <Features />
-          <Reference />
           <QuickStart />
+          <Reference />
         </div>
       </div>
     );
