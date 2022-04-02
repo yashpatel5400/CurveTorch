@@ -14,18 +14,12 @@ import curvetorch as curve
 def basic_f(x, y):
     return x * x + y * y
 
-def basic(tensor):
-    x, y = tensor
-    return basic_f(x, y)
 
-
-def rosenbrock(tensor):
-    x, y = tensor
+def rosenbrock(x, y):
     return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
 
 
-def quadratic(tensor):
-    x, y = tensor
+def quadratic(x, y):
     a = 1.0
     b = 1.0
     return (x ** 2) / a + (y ** 2) / b
@@ -33,8 +27,8 @@ def quadratic(tensor):
 
 cases = [
     (basic, (-0.3, 0.5), (0, 0)),
-    (rosenbrock, (1.5, 1.5), (1, 1)),
-    (quadratic, (0.5, 0.5), (0, 0)),
+    # (rosenbrock, (1.5, 1.5), (1, 1)),
+    # (quadratic, (0.5, 0.5), (0, 0)),
 ]
 
 
@@ -44,14 +38,14 @@ def ids(v):
 
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.0015}, 10000),
+    (curve.CurveSGD, {'lr': 0.0015}, 100),
 ]
 
 
 @pytest.mark.parametrize('case', cases, ids=ids)
 @pytest.mark.parametrize('optimizer_config', optimizers, ids=ids)
 def test_benchmark_function(case, optimizer_config):
-    func, initial_state, min_loc = case
+    func, raw_func, initial_state, min_loc = case
     optimizer_class, config, iterations = optimizer_config
 
     x = torch.Tensor(initial_state).requires_grad_(True)
@@ -62,26 +56,27 @@ def test_benchmark_function(case, optimizer_config):
 
     fs = []
     for _ in range(iterations):
-        fs.append(func(x))
+        x0, x1 = x
+        
+        fs.append(func(x0, x1))
         def closure():
             optimizer.zero_grad()
-            f = func(x)
+            f = func(x0, x1)
             f.backward(retain_graph=True, create_graph=True)
             return f
         optimizer.step(closure)
 
-        x0, x1 = x
         x0s.append(float(x0.detach().numpy()))
         x1s.append(float(x1.detach().numpy()))
 
     plt.plot(range(iterations), fs)
     plt.show()
 
-    basic_f_vec = np.vectorize(basic_f)
-    a, b = np.meshgrid(np.linspace(-1, 1, 100),
-                       np.linspace(-1, 1, 100))
+    f_vec = np.vectorize(func)
+    a, b = np.meshgrid(np.linspace(-2, 2, 300),
+                       np.linspace(-2, 2, 300))
 
-    plt.contour(a, b, basic_f_vec(a, b))
+    plt.contour(a, b, f_vec(a, b))
 
     for i in range(len(x0s)-1):
         plt.plot(x0s[i:i+2], x1s[i:i+2],
