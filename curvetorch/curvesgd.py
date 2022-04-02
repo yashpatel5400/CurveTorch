@@ -155,7 +155,7 @@ class CurveSGD(Optimizer):
             for p in group['params']:
                 if p.grad is None:
                     continue
-                d_p = p.grad.data
+                d_p = p.grad.data.flatten()
 
                 if d_p.is_sparse:
                     msg = (
@@ -163,7 +163,6 @@ class CurveSGD(Optimizer):
                         'please consider SparseAdam instead'
                     )
                     raise RuntimeError(msg)
-
                 state = self.state[p]
 
                 # State initialization
@@ -179,22 +178,22 @@ class CurveSGD(Optimizer):
                     state['func_exp_var'] = torch.zeros((1))
 
                     # Exponential moving average of gradient values
-                    state['grad_exp_avg'] = p.grad.clone()
+                    state['grad_exp_avg'] = d_p.clone()
                     state['grad_exp_var'] = torch.zeros_like(
-                        p, memory_format=torch.preserve_format
+                        p.flatten(), memory_format=torch.preserve_format
                     )
 
                     # Exponential moving average of Hessian values
-                    state['hess_exp_avg'] = self.get_hessian_prod(p, p.grad, state['delta_t']).clone()
+                    state['hess_exp_avg'] = self.get_hessian_prod(p, p.grad, state['delta_t']).flatten().clone()
                     state['hess_exp_var'] = torch.zeros_like(
-                        p, memory_format=torch.preserve_format
+                        p.flatten(), memory_format=torch.preserve_format
                     )
 
                     # Kalman Filter states
                     state['m_t'] = torch.zeros_like(
-                        p, memory_format=torch.preserve_format
+                        p.flatten(), memory_format=torch.preserve_format
                     )
-                    state['P_t'] = torch.eye(p.grad.size()[0]).mul(1e4)
+                    state['P_t'] = torch.eye(d_p.size()[0]).mul(1e4)
                     state['u_t'] = 0
                     state['s_t'] = 1e4
 
@@ -206,13 +205,14 @@ class CurveSGD(Optimizer):
                 hess_exp_var = state['hess_exp_var']
                 delta_t = state['delta_t']
 
-                B_delta = self.get_hessian_prod(p, p.grad, delta_t)
+                B_delta = self.get_hessian_prod(p, p.grad, delta_t).flatten()
+                delta_t = delta_t.flatten()
                 
                 if state['t'] != 0:
                     beta_delta = 1 - 1 / state['t'] # non-smoothed running average/variance
 
                     func_exp_avg, func_exp_var = self.mean_var_ewa(func_exp_avg, func_exp_var, loss, beta_r)
-                    grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, p.grad, beta_sigma)
+                    grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, d_p, beta_sigma)
                     hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, B_delta, beta_delta)
 
                 eps = 10e-1
@@ -223,9 +223,9 @@ class CurveSGD(Optimizer):
                 y_t = func_exp_avg
                 r_t = func_exp_var
                 g_t = grad_exp_avg
-                Sigma_t = torch.eye(p.grad.size()[0]).mul(sigma_t)
+                Sigma_t = torch.eye(d_p.size()[0]).mul(sigma_t)
                 b_t = hess_exp_avg
-                Q_t = torch.eye(p.grad.size()[0]).mul(q_t)
+                Q_t = torch.eye(d_p.size()[0]).mul(q_t)
 
                 # Kalman Filter update for f
                 u_t = state['u_t']
@@ -249,19 +249,20 @@ class CurveSGD(Optimizer):
                 P_t_minus = P_t + Q_t 
                 K_t = P_t_minus.matmul((P_t_minus + Sigma_t).inverse())
 
-                m_t = (torch.eye(p.grad.size()[0]) - K_t).matmul(m_t_minus) + K_t.matmul(g_t)
-                P_t = (torch.eye(p.grad.size()[0]) - K_t).matmul(P_t_minus).matmul((torch.eye(p.grad.size()[0]) - K_t).t()) \
+                m_t = (torch.eye(d_p.size()[0]) - K_t).matmul(m_t_minus) + K_t.matmul(g_t)
+                P_t = (torch.eye(d_p.size()[0]) - K_t).matmul(P_t_minus).matmul((torch.eye(d_p.size()[0]) - K_t).t()) \
                         + K_t.matmul(Sigma_t).matmul(K_t.t())
 
                 prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
                 prob_improve_grad_closure = lambda alpha : self.prob_improve_num_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
                 
-                if state['t'] == 0:
-                    lr = group['lr']
-                else:
-                    lr = min(.0015, minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS').x[0])
+                # if state['t'] == 0:
+                lr = group['lr']
+                print(lr)
+                # else:
+                #     lr = min(.0015, minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS').x[0])
                 
-                delta_t = m_t.mul(lr)
+                delta_t = m_t.mul(lr).reshape(p.data.shape)
 
                 state['t'] += 1
                 
