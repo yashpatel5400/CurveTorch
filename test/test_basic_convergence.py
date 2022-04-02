@@ -27,8 +27,8 @@ def quadratic(x, y):
 
 cases = [
     (basic, (-0.3, 0.5), (0, 0)),
-    # (rosenbrock, (1.5, 1.5), (1, 1)),
-    # (quadratic, (0.5, 0.5), (0, 0)),
+    (rosenbrock, (1.5, 1.5), (1, 1)),
+    (quadratic, (0.5, 0.5), (0, 0)),
 ]
 
 
@@ -38,7 +38,7 @@ def ids(v):
 
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.0015}, 100),
+    (curve.CurveSGD, {'lr': 0.0015}, 15000),
 ]
 
 
@@ -53,6 +53,8 @@ def test_benchmark_function(case, optimizer_config):
     optimizer = optimizer_class([x], **config)
     x0s = []
     x1s = []
+
+    _, axs = plt.subplots(1, 2)
 
     fs = []
     for _ in range(iterations):
@@ -69,17 +71,22 @@ def test_benchmark_function(case, optimizer_config):
         x0s.append(float(x0.detach().numpy()))
         x1s.append(float(x1.detach().numpy()))
 
-    plt.plot(range(iterations), fs)
-    plt.show()
-
+    axs[0].set_xlabel("Iteration")
+    axs[0].set_ylabel("Loss")
+    axs[0].set_title("Loss vs. Iteration")
+    axs[0].plot(range(iterations), fs)
+    
     f_vec = np.vectorize(func)
     a, b = np.meshgrid(np.linspace(-2, 2, 300),
                        np.linspace(-2, 2, 300))
 
-    plt.contour(a, b, f_vec(a, b))
+    axs[1].set_xlabel("x")
+    axs[1].set_ylabel("y")
+    axs[1].set_title("Trajectory Plot")
+    axs[1].contour(a, b, f_vec(a, b))
 
     for i in range(len(x0s)-1):
-        plt.plot(x0s[i:i+2], x1s[i:i+2],
+        axs[1].plot(x0s[i:i+2], x1s[i:i+2],
                  alpha=float(i) / (len(x0s)-1),
                  color="blue")
     plt.show()
