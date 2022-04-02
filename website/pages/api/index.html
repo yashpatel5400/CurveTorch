@@ -1,0 +1,1217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>curvesgd API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>curvesgd</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
+import copy
+
+import torch
+from torch.optim.optimizer import Optimizer
+
+import numpy as np
+from scipy.optimize import minimize
+
+__all__ = (&#39;CurveSGD&#39;,)
+
+
+class CurveSGD(Optimizer):
+    r&#34;&#34;&#34;Implements Self-Tuning Stochastic Optimization with
+    Curvature-Aware Gradient Filtering algorithm (https://arxiv.org/pdf/2011.04803.pdf).
+    Arguments:
+        params: iterable of parameters to optimize or dicts defining
+            parameter groups
+        lr: learning rate (default: 1e-3)
+    Example:
+        &gt;&gt;&gt; import curvesgd as curve
+        &gt;&gt;&gt; optimizer = curve.CurveSGD(model.parameters(), lr=0.1)
+        &gt;&gt;&gt; 
+        &gt;&gt;&gt; for _ in range(iterations):
+        &gt;&gt;&gt; def closure():
+        &gt;&gt;&gt;     optimizer.zero_grad()
+        &gt;&gt;&gt;     f = func(x)
+        &gt;&gt;&gt;     f.backward(retain_graph=True, create_graph=True)
+        &gt;&gt;&gt;     return f
+        &gt;&gt;&gt; optimizer.step(closure)
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        params,
+        lr: float = 1e-3,
+        beta_r=0.999,
+        beta_sigma=0.999,
+        beta_alpha=0.999,
+    ):
+        if lr &lt;= 0.0:
+            raise ValueError(&#39;Invalid learning rate: {}&#39;.format(lr))
+        defaults = dict(
+            lr=lr,
+            beta_r=beta_r,
+            beta_sigma=beta_sigma,
+            beta_alpha=beta_alpha,
+        )
+        super(CurveSGD, self).__init__(params, defaults)
+
+    def get_hessian_prod(self, params, grads, delta):
+        &#34;&#34;&#34;Get an estimate of Hessian product.
+        This is done by computing the Hessian vector product with the stored delta
+        vector at the current gradient point, to estimate Hessian trace by
+        computing the gradient of &lt;gradsH, s&gt;.
+        
+        Args:
+            params: iterable of parameters to optimize or dicts defining
+                parameter groups
+            grads: gradient of parameters
+            delta: vector to be multiplied against the Hessian (right multiplied)
+
+        Returns:
+            hessian_prod: Product of hessian and delta argument
+        &#34;&#34;&#34;
+
+        # Check backward was called with create_graph set to True
+        if grads.grad_fn is None:
+            msg = (
+                &#39;Gradient tensor {:} does not have grad_fn. When &#39;
+                &#39;calling loss.backward(), make sure the option &#39;
+                &#39;create_graph is set to True.&#39;
+            )
+            raise RuntimeError(msg.format(i))
+
+        # this is for distributed setting with single node and multi-gpus,
+        # for multi nodes setting, we have not support it yet.
+        hvs = torch.autograd.grad(
+            grads, params, grad_outputs=delta, only_inputs=True, retain_graph=True
+        )
+
+        return hvs[0]
+
+    def _get_prob_improve_num_den(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Helper function for probability improvement/gradient calculation. See 
+        prob_improve for full description of its use
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob_gradient: Numerator and denominator of probability function evaluation
+        &#34;&#34;&#34;
+        alpha = alpha[0]
+        numerator = -alpha * delta_t.matmul(m_t) + alpha ** 2 / 2 * delta_t.t().matmul(B_delta)
+        denominator = 2 * s_t + alpha ** 2 * delta_t.t().matmul(P_t).matmul(delta_t) \
+            + alpha ** 4 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t)
+        numerator = numerator.detach().numpy()
+        denominator = np.sqrt(denominator.detach().numpy())[0]
+        return numerator, denominator
+
+    def prob_improve(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Get an estimate of improvement probability assuming alpha step size.
+        This is done as a subroutine procedure to determine the optimal
+        step size within after running filtering on the function and gradient values.
+        Intended to be used in conjunction with an optimization procedure (i.e scipy.optimize)
+        assuming all parameters fixed except alpha.
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob: Improvement probability function evaluation
+        &#34;&#34;&#34;
+        numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        return numerator / denominator
+
+    def prob_improve_num_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Get an estimate of improvement numerical gradient. See prob_improve for docs
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob_gradient: Numerical gradient of improvement probability function
+        &#34;&#34;&#34;
+        eps = 1e-4
+        f_plus = self.prob_improve(alpha + eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        f_minus = self.prob_improve(alpha - eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        return (f_plus - f_minus) / (2 * eps)
+
+    def prob_improve_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Get an estimate of improvement probability gradient. See prob_improve for docs
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob_gradient: Gradient of improvement probability function 
+        &#34;&#34;&#34;
+        numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        alpha = alpha[0]
+        numerator_grad = -delta_t.t().matmul(m_t) + alpha * delta_t.t().matmul(B_delta)
+        denominator_grad = 1 / (2 * denominator) * (2 * alpha * delta_t.t().matmul(P_t).matmul(delta_t) \
+            + alpha ** 3 * delta_t.t().matmul(Q_t).matmul(delta_t))
+        numerator_grad = numerator_grad.detach().numpy()
+        denominator_grad = denominator_grad.detach().numpy()
+
+        return (denominator * numerator_grad - numerator * denominator_grad) / denominator ** 2
+
+    def mean_var_ewa(self, ema, emvar, x, beta):
+        r&#34;&#34;&#34;Computes exponential moving average/variance of tensor with update weight beta.
+        
+        Args:
+            ema: Current exponential moving average.
+            emvar: Current exponential moving variance.
+            x: New datapoint (should have same untis as ema).
+            beta: Averaging weight for update step.
+
+        Returns:
+            (ema, emvar): Tuple of weighted average and variance
+        &#34;&#34;&#34;
+        alpha = 1 - beta
+        delta = x - ema
+        ema_new = ema.add(delta.mul(alpha))
+        emvar_new = emvar.add(delta.mul(delta).mul(alpha)).mul(1 - alpha)
+        return ema_new, emvar_new
+
+    def step(self, closure = None):
+        r&#34;&#34;&#34;Performs a single optimization step.
+
+        Args:
+            closure: A closure that reevaluates the model and returns the loss.
+
+        Returns:
+            loss: Loss (before taking optimizer step)
+        &#34;&#34;&#34;
+        loss = None
+        if closure is not None:
+            loss = closure()
+
+        for group in self.param_groups:
+            beta_r = group[&#39;beta_r&#39;]
+            beta_sigma = group[&#39;beta_sigma&#39;]
+            beta_alpha = group[&#39;beta_alpha&#39;]
+
+            for p in group[&#39;params&#39;]:
+                if p.grad is None:
+                    continue
+                d_p = p.grad.data.flatten()
+
+                if d_p.is_sparse:
+                    msg = (
+                        &#39;CurveSGD does not support sparse gradients, &#39;
+                        &#39;please consider SparseAdam instead&#39;
+                    )
+                    raise RuntimeError(msg)
+                state = self.state[p]
+
+                # State initialization
+                if len(state) == 0:
+                    state[&#39;t&#39;] = 0
+
+                    state[&#39;delta_t&#39;] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+
+                    # Exponential moving average of function values
+                    state[&#39;func_exp_avg&#39;] = loss.clone()
+                    state[&#39;func_exp_var&#39;] = torch.zeros((1))
+
+                    # Exponential moving average of gradient values
+                    state[&#39;grad_exp_avg&#39;] = d_p.clone()
+                    state[&#39;grad_exp_var&#39;] = torch.zeros_like(
+                        p.flatten(), memory_format=torch.preserve_format
+                    )
+
+                    # Exponential moving average of Hessian values
+                    state[&#39;hess_exp_avg&#39;] = self.get_hessian_prod(p, p.grad, state[&#39;delta_t&#39;]).flatten().clone()
+                    state[&#39;hess_exp_var&#39;] = torch.zeros_like(
+                        p.flatten(), memory_format=torch.preserve_format
+                    )
+
+                    # Kalman Filter states
+                    state[&#39;m_t&#39;] = torch.zeros_like(
+                        p.flatten(), memory_format=torch.preserve_format
+                    )
+                    state[&#39;P_t&#39;] = torch.eye(d_p.size()[0]).mul(1e4)
+                    state[&#39;u_t&#39;] = 0
+                    state[&#39;s_t&#39;] = 1e4
+
+                func_exp_avg = state[&#39;func_exp_avg&#39;]
+                func_exp_var = state[&#39;func_exp_var&#39;]
+                grad_exp_avg = state[&#39;grad_exp_avg&#39;]
+                grad_exp_var = state[&#39;grad_exp_var&#39;]
+                hess_exp_avg = state[&#39;hess_exp_avg&#39;]
+                hess_exp_var = state[&#39;hess_exp_var&#39;]
+                delta_t = state[&#39;delta_t&#39;]
+
+                B_delta = self.get_hessian_prod(p, p.grad, delta_t).flatten()
+                delta_t = delta_t.flatten()
+                
+                if state[&#39;t&#39;] != 0:
+                    beta_delta = 1 - 1 / state[&#39;t&#39;] # non-smoothed running average/variance
+
+                    func_exp_avg, func_exp_var = self.mean_var_ewa(func_exp_avg, func_exp_var, loss, beta_r)
+                    grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, d_p, beta_sigma)
+                    hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, B_delta, beta_delta)
+
+                eps = 10e-1
+                sigma_t = max(eps, torch.mean(grad_exp_var))
+                q_t = max(eps, torch.mean(hess_exp_var))
+
+                # Match notation from paper for convenience
+                y_t = func_exp_avg
+                r_t = func_exp_var
+                g_t = grad_exp_avg
+                Sigma_t = torch.eye(d_p.size()[0]).mul(sigma_t)
+                b_t = hess_exp_avg
+                Q_t = torch.eye(d_p.size()[0]).mul(q_t)
+
+                # Kalman Filter update for f
+                u_t = state[&#39;u_t&#39;]
+                s_t = state[&#39;s_t&#39;]
+                m_t = state[&#39;m_t&#39;]
+                P_t = state[&#39;P_t&#39;]
+
+                # steps for Kalman filter
+                # compute u_t_minus
+                u_t_minus = u_t + m_t.t().matmul(delta_t) + 1 / 2 * delta_t.t().matmul(B_delta)
+                c_t = s_t + delta_t.t().matmul(P_t).matmul(delta_t) + 1 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t) + r_t
+                lambda_t = max((y_t - u_t_minus) ** 2 - c_t, 0)
+                s_t_minus = lambda_t + c_t - r_t
+
+                mix_t = s_t_minus / (s_t_minus + r_t)
+                u_t = (1 - mix_t) * u_t_minus + mix_t * y_t
+                s_t = (1 - mix_t) ** 2 * s_t_minus + mix_t ** 2 * r_t
+
+                # Kalman Filter update for grad f
+                m_t_minus = m_t + B_delta
+                P_t_minus = P_t + Q_t 
+                K_t = P_t_minus.matmul((P_t_minus + Sigma_t).inverse())
+
+                m_t = (torch.eye(d_p.size()[0]) - K_t).matmul(m_t_minus) + K_t.matmul(g_t)
+                P_t = (torch.eye(d_p.size()[0]) - K_t).matmul(P_t_minus).matmul((torch.eye(d_p.size()[0]) - K_t).t()) \
+                        + K_t.matmul(Sigma_t).matmul(K_t.t())
+
+                prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+                prob_improve_grad_closure = lambda alpha : self.prob_improve_num_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+                
+                if state[&#39;t&#39;] == 0:
+                    lr = group[&#39;lr&#39;]
+                else:
+                    lr = min(.0015, minimize(prob_improve_closure, group[&#39;lr&#39;], jac=prob_improve_grad_closure, method=&#39;BFGS&#39;).x[0])
+                
+                delta_t = m_t.mul(lr).reshape(p.data.shape)
+
+                state[&#39;t&#39;] += 1
+                
+                state[&#39;u_t&#39;] = u_t
+                state[&#39;s_t&#39;] = s_t
+                state[&#39;m_t&#39;] = m_t
+                state[&#39;P_t&#39;] = P_t
+
+                state[&#39;func_exp_avg&#39;] = func_exp_avg
+                state[&#39;func_exp_var&#39;] = func_exp_var
+                state[&#39;grad_exp_avg&#39;] = grad_exp_avg
+                state[&#39;grad_exp_var&#39;] = grad_exp_var
+                state[&#39;hess_exp_avg&#39;] = hess_exp_avg
+                state[&#39;hess_exp_var&#39;] = hess_exp_var
+                state[&#39;delta_t&#39;]      = delta_t
+
+                # Use filtered gradient estimate for update step
+                p.data.sub_(delta_t)
+
+        return loss</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="curvesgd.CurveSGD"><code class="flex name class">
+<span>class <span class="ident">CurveSGD</span></span>
+<span>(</span><span>params, lr: float = 0.001, beta_r=0.999, beta_sigma=0.999, beta_alpha=0.999)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Implements Self-Tuning Stochastic Optimization with
+Curvature-Aware Gradient Filtering algorithm (<a href="https://arxiv.org/pdf/2011.04803.pdf">https://arxiv.org/pdf/2011.04803.pdf</a>).</p>
+<h2 id="arguments">Arguments</h2>
+<p>params: iterable of parameters to optimize or dicts defining
+parameter groups
+lr: learning rate (default: 1e-3)</p>
+<h2 id="example">Example</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import curvesgd as curve
+&gt;&gt;&gt; optimizer = curve.CurveSGD(model.parameters(), lr=0.1)
+&gt;&gt;&gt; 
+&gt;&gt;&gt; for _ in range(iterations):
+&gt;&gt;&gt; def closure():
+&gt;&gt;&gt;     optimizer.zero_grad()
+&gt;&gt;&gt;     f = func(x)
+&gt;&gt;&gt;     f.backward(retain_graph=True, create_graph=True)
+&gt;&gt;&gt;     return f
+&gt;&gt;&gt; optimizer.step(closure)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CurveSGD(Optimizer):
+    r&#34;&#34;&#34;Implements Self-Tuning Stochastic Optimization with
+    Curvature-Aware Gradient Filtering algorithm (https://arxiv.org/pdf/2011.04803.pdf).
+    Arguments:
+        params: iterable of parameters to optimize or dicts defining
+            parameter groups
+        lr: learning rate (default: 1e-3)
+    Example:
+        &gt;&gt;&gt; import curvesgd as curve
+        &gt;&gt;&gt; optimizer = curve.CurveSGD(model.parameters(), lr=0.1)
+        &gt;&gt;&gt; 
+        &gt;&gt;&gt; for _ in range(iterations):
+        &gt;&gt;&gt; def closure():
+        &gt;&gt;&gt;     optimizer.zero_grad()
+        &gt;&gt;&gt;     f = func(x)
+        &gt;&gt;&gt;     f.backward(retain_graph=True, create_graph=True)
+        &gt;&gt;&gt;     return f
+        &gt;&gt;&gt; optimizer.step(closure)
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        params,
+        lr: float = 1e-3,
+        beta_r=0.999,
+        beta_sigma=0.999,
+        beta_alpha=0.999,
+    ):
+        if lr &lt;= 0.0:
+            raise ValueError(&#39;Invalid learning rate: {}&#39;.format(lr))
+        defaults = dict(
+            lr=lr,
+            beta_r=beta_r,
+            beta_sigma=beta_sigma,
+            beta_alpha=beta_alpha,
+        )
+        super(CurveSGD, self).__init__(params, defaults)
+
+    def get_hessian_prod(self, params, grads, delta):
+        &#34;&#34;&#34;Get an estimate of Hessian product.
+        This is done by computing the Hessian vector product with the stored delta
+        vector at the current gradient point, to estimate Hessian trace by
+        computing the gradient of &lt;gradsH, s&gt;.
+        
+        Args:
+            params: iterable of parameters to optimize or dicts defining
+                parameter groups
+            grads: gradient of parameters
+            delta: vector to be multiplied against the Hessian (right multiplied)
+
+        Returns:
+            hessian_prod: Product of hessian and delta argument
+        &#34;&#34;&#34;
+
+        # Check backward was called with create_graph set to True
+        if grads.grad_fn is None:
+            msg = (
+                &#39;Gradient tensor {:} does not have grad_fn. When &#39;
+                &#39;calling loss.backward(), make sure the option &#39;
+                &#39;create_graph is set to True.&#39;
+            )
+            raise RuntimeError(msg.format(i))
+
+        # this is for distributed setting with single node and multi-gpus,
+        # for multi nodes setting, we have not support it yet.
+        hvs = torch.autograd.grad(
+            grads, params, grad_outputs=delta, only_inputs=True, retain_graph=True
+        )
+
+        return hvs[0]
+
+    def _get_prob_improve_num_den(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Helper function for probability improvement/gradient calculation. See 
+        prob_improve for full description of its use
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob_gradient: Numerator and denominator of probability function evaluation
+        &#34;&#34;&#34;
+        alpha = alpha[0]
+        numerator = -alpha * delta_t.matmul(m_t) + alpha ** 2 / 2 * delta_t.t().matmul(B_delta)
+        denominator = 2 * s_t + alpha ** 2 * delta_t.t().matmul(P_t).matmul(delta_t) \
+            + alpha ** 4 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t)
+        numerator = numerator.detach().numpy()
+        denominator = np.sqrt(denominator.detach().numpy())[0]
+        return numerator, denominator
+
+    def prob_improve(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Get an estimate of improvement probability assuming alpha step size.
+        This is done as a subroutine procedure to determine the optimal
+        step size within after running filtering on the function and gradient values.
+        Intended to be used in conjunction with an optimization procedure (i.e scipy.optimize)
+        assuming all parameters fixed except alpha.
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob: Improvement probability function evaluation
+        &#34;&#34;&#34;
+        numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        return numerator / denominator
+
+    def prob_improve_num_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Get an estimate of improvement numerical gradient. See prob_improve for docs
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob_gradient: Numerical gradient of improvement probability function
+        &#34;&#34;&#34;
+        eps = 1e-4
+        f_plus = self.prob_improve(alpha + eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        f_minus = self.prob_improve(alpha - eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        return (f_plus - f_minus) / (2 * eps)
+
+    def prob_improve_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        &#34;&#34;&#34;Get an estimate of improvement probability gradient. See prob_improve for docs
+        
+        Args:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+
+        Returns:
+            prob_gradient: Gradient of improvement probability function 
+        &#34;&#34;&#34;
+        numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+        alpha = alpha[0]
+        numerator_grad = -delta_t.t().matmul(m_t) + alpha * delta_t.t().matmul(B_delta)
+        denominator_grad = 1 / (2 * denominator) * (2 * alpha * delta_t.t().matmul(P_t).matmul(delta_t) \
+            + alpha ** 3 * delta_t.t().matmul(Q_t).matmul(delta_t))
+        numerator_grad = numerator_grad.detach().numpy()
+        denominator_grad = denominator_grad.detach().numpy()
+
+        return (denominator * numerator_grad - numerator * denominator_grad) / denominator ** 2
+
+    def mean_var_ewa(self, ema, emvar, x, beta):
+        r&#34;&#34;&#34;Computes exponential moving average/variance of tensor with update weight beta.
+        
+        Args:
+            ema: Current exponential moving average.
+            emvar: Current exponential moving variance.
+            x: New datapoint (should have same untis as ema).
+            beta: Averaging weight for update step.
+
+        Returns:
+            (ema, emvar): Tuple of weighted average and variance
+        &#34;&#34;&#34;
+        alpha = 1 - beta
+        delta = x - ema
+        ema_new = ema.add(delta.mul(alpha))
+        emvar_new = emvar.add(delta.mul(delta).mul(alpha)).mul(1 - alpha)
+        return ema_new, emvar_new
+
+    def step(self, closure = None):
+        r&#34;&#34;&#34;Performs a single optimization step.
+
+        Args:
+            closure: A closure that reevaluates the model and returns the loss.
+
+        Returns:
+            loss: Loss (before taking optimizer step)
+        &#34;&#34;&#34;
+        loss = None
+        if closure is not None:
+            loss = closure()
+
+        for group in self.param_groups:
+            beta_r = group[&#39;beta_r&#39;]
+            beta_sigma = group[&#39;beta_sigma&#39;]
+            beta_alpha = group[&#39;beta_alpha&#39;]
+
+            for p in group[&#39;params&#39;]:
+                if p.grad is None:
+                    continue
+                d_p = p.grad.data.flatten()
+
+                if d_p.is_sparse:
+                    msg = (
+                        &#39;CurveSGD does not support sparse gradients, &#39;
+                        &#39;please consider SparseAdam instead&#39;
+                    )
+                    raise RuntimeError(msg)
+                state = self.state[p]
+
+                # State initialization
+                if len(state) == 0:
+                    state[&#39;t&#39;] = 0
+
+                    state[&#39;delta_t&#39;] = torch.zeros_like(
+                        p, memory_format=torch.preserve_format
+                    )
+
+                    # Exponential moving average of function values
+                    state[&#39;func_exp_avg&#39;] = loss.clone()
+                    state[&#39;func_exp_var&#39;] = torch.zeros((1))
+
+                    # Exponential moving average of gradient values
+                    state[&#39;grad_exp_avg&#39;] = d_p.clone()
+                    state[&#39;grad_exp_var&#39;] = torch.zeros_like(
+                        p.flatten(), memory_format=torch.preserve_format
+                    )
+
+                    # Exponential moving average of Hessian values
+                    state[&#39;hess_exp_avg&#39;] = self.get_hessian_prod(p, p.grad, state[&#39;delta_t&#39;]).flatten().clone()
+                    state[&#39;hess_exp_var&#39;] = torch.zeros_like(
+                        p.flatten(), memory_format=torch.preserve_format
+                    )
+
+                    # Kalman Filter states
+                    state[&#39;m_t&#39;] = torch.zeros_like(
+                        p.flatten(), memory_format=torch.preserve_format
+                    )
+                    state[&#39;P_t&#39;] = torch.eye(d_p.size()[0]).mul(1e4)
+                    state[&#39;u_t&#39;] = 0
+                    state[&#39;s_t&#39;] = 1e4
+
+                func_exp_avg = state[&#39;func_exp_avg&#39;]
+                func_exp_var = state[&#39;func_exp_var&#39;]
+                grad_exp_avg = state[&#39;grad_exp_avg&#39;]
+                grad_exp_var = state[&#39;grad_exp_var&#39;]
+                hess_exp_avg = state[&#39;hess_exp_avg&#39;]
+                hess_exp_var = state[&#39;hess_exp_var&#39;]
+                delta_t = state[&#39;delta_t&#39;]
+
+                B_delta = self.get_hessian_prod(p, p.grad, delta_t).flatten()
+                delta_t = delta_t.flatten()
+                
+                if state[&#39;t&#39;] != 0:
+                    beta_delta = 1 - 1 / state[&#39;t&#39;] # non-smoothed running average/variance
+
+                    func_exp_avg, func_exp_var = self.mean_var_ewa(func_exp_avg, func_exp_var, loss, beta_r)
+                    grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, d_p, beta_sigma)
+                    hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, B_delta, beta_delta)
+
+                eps = 10e-1
+                sigma_t = max(eps, torch.mean(grad_exp_var))
+                q_t = max(eps, torch.mean(hess_exp_var))
+
+                # Match notation from paper for convenience
+                y_t = func_exp_avg
+                r_t = func_exp_var
+                g_t = grad_exp_avg
+                Sigma_t = torch.eye(d_p.size()[0]).mul(sigma_t)
+                b_t = hess_exp_avg
+                Q_t = torch.eye(d_p.size()[0]).mul(q_t)
+
+                # Kalman Filter update for f
+                u_t = state[&#39;u_t&#39;]
+                s_t = state[&#39;s_t&#39;]
+                m_t = state[&#39;m_t&#39;]
+                P_t = state[&#39;P_t&#39;]
+
+                # steps for Kalman filter
+                # compute u_t_minus
+                u_t_minus = u_t + m_t.t().matmul(delta_t) + 1 / 2 * delta_t.t().matmul(B_delta)
+                c_t = s_t + delta_t.t().matmul(P_t).matmul(delta_t) + 1 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t) + r_t
+                lambda_t = max((y_t - u_t_minus) ** 2 - c_t, 0)
+                s_t_minus = lambda_t + c_t - r_t
+
+                mix_t = s_t_minus / (s_t_minus + r_t)
+                u_t = (1 - mix_t) * u_t_minus + mix_t * y_t
+                s_t = (1 - mix_t) ** 2 * s_t_minus + mix_t ** 2 * r_t
+
+                # Kalman Filter update for grad f
+                m_t_minus = m_t + B_delta
+                P_t_minus = P_t + Q_t 
+                K_t = P_t_minus.matmul((P_t_minus + Sigma_t).inverse())
+
+                m_t = (torch.eye(d_p.size()[0]) - K_t).matmul(m_t_minus) + K_t.matmul(g_t)
+                P_t = (torch.eye(d_p.size()[0]) - K_t).matmul(P_t_minus).matmul((torch.eye(d_p.size()[0]) - K_t).t()) \
+                        + K_t.matmul(Sigma_t).matmul(K_t.t())
+
+                prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+                prob_improve_grad_closure = lambda alpha : self.prob_improve_num_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+                
+                if state[&#39;t&#39;] == 0:
+                    lr = group[&#39;lr&#39;]
+                else:
+                    lr = min(.0015, minimize(prob_improve_closure, group[&#39;lr&#39;], jac=prob_improve_grad_closure, method=&#39;BFGS&#39;).x[0])
+                
+                delta_t = m_t.mul(lr).reshape(p.data.shape)
+
+                state[&#39;t&#39;] += 1
+                
+                state[&#39;u_t&#39;] = u_t
+                state[&#39;s_t&#39;] = s_t
+                state[&#39;m_t&#39;] = m_t
+                state[&#39;P_t&#39;] = P_t
+
+                state[&#39;func_exp_avg&#39;] = func_exp_avg
+                state[&#39;func_exp_var&#39;] = func_exp_var
+                state[&#39;grad_exp_avg&#39;] = grad_exp_avg
+                state[&#39;grad_exp_var&#39;] = grad_exp_var
+                state[&#39;hess_exp_avg&#39;] = hess_exp_avg
+                state[&#39;hess_exp_var&#39;] = hess_exp_var
+                state[&#39;delta_t&#39;]      = delta_t
+
+                # Use filtered gradient estimate for update step
+                p.data.sub_(delta_t)
+
+        return loss</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>torch.optim.optimizer.Optimizer</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="curvesgd.CurveSGD.get_hessian_prod"><code class="name flex">
+<span>def <span class="ident">get_hessian_prod</span></span>(<span>self, params, grads, delta)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get an estimate of Hessian product.
+This is done by computing the Hessian vector product with the stored delta
+vector at the current gradient point, to estimate Hessian trace by
+computing the gradient of <gradsH, s>.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>params</code></strong></dt>
+<dd>iterable of parameters to optimize or dicts defining
+parameter groups</dd>
+<dt><strong><code>grads</code></strong></dt>
+<dd>gradient of parameters</dd>
+<dt><strong><code>delta</code></strong></dt>
+<dd>vector to be multiplied against the Hessian (right multiplied)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>hessian_prod</code></dt>
+<dd>Product of hessian and delta argument</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_hessian_prod(self, params, grads, delta):
+    &#34;&#34;&#34;Get an estimate of Hessian product.
+    This is done by computing the Hessian vector product with the stored delta
+    vector at the current gradient point, to estimate Hessian trace by
+    computing the gradient of &lt;gradsH, s&gt;.
+    
+    Args:
+        params: iterable of parameters to optimize or dicts defining
+            parameter groups
+        grads: gradient of parameters
+        delta: vector to be multiplied against the Hessian (right multiplied)
+
+    Returns:
+        hessian_prod: Product of hessian and delta argument
+    &#34;&#34;&#34;
+
+    # Check backward was called with create_graph set to True
+    if grads.grad_fn is None:
+        msg = (
+            &#39;Gradient tensor {:} does not have grad_fn. When &#39;
+            &#39;calling loss.backward(), make sure the option &#39;
+            &#39;create_graph is set to True.&#39;
+        )
+        raise RuntimeError(msg.format(i))
+
+    # this is for distributed setting with single node and multi-gpus,
+    # for multi nodes setting, we have not support it yet.
+    hvs = torch.autograd.grad(
+        grads, params, grad_outputs=delta, only_inputs=True, retain_graph=True
+    )
+
+    return hvs[0]</code></pre>
+</details>
+</dd>
+<dt id="curvesgd.CurveSGD.mean_var_ewa"><code class="name flex">
+<span>def <span class="ident">mean_var_ewa</span></span>(<span>self, ema, emvar, x, beta)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes exponential moving average/variance of tensor with update weight beta.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ema</code></strong></dt>
+<dd>Current exponential moving average.</dd>
+<dt><strong><code>emvar</code></strong></dt>
+<dd>Current exponential moving variance.</dd>
+<dt><strong><code>x</code></strong></dt>
+<dd>New datapoint (should have same untis as ema).</dd>
+<dt><strong><code>beta</code></strong></dt>
+<dd>Averaging weight for update step.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>(ema, emvar): Tuple of weighted average and variance</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mean_var_ewa(self, ema, emvar, x, beta):
+    r&#34;&#34;&#34;Computes exponential moving average/variance of tensor with update weight beta.
+    
+    Args:
+        ema: Current exponential moving average.
+        emvar: Current exponential moving variance.
+        x: New datapoint (should have same untis as ema).
+        beta: Averaging weight for update step.
+
+    Returns:
+        (ema, emvar): Tuple of weighted average and variance
+    &#34;&#34;&#34;
+    alpha = 1 - beta
+    delta = x - ema
+    ema_new = ema.add(delta.mul(alpha))
+    emvar_new = emvar.add(delta.mul(delta).mul(alpha)).mul(1 - alpha)
+    return ema_new, emvar_new</code></pre>
+</details>
+</dd>
+<dt id="curvesgd.CurveSGD.prob_improve"><code class="name flex">
+<span>def <span class="ident">prob_improve</span></span>(<span>self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get an estimate of improvement probability assuming alpha step size.
+This is done as a subroutine procedure to determine the optimal
+step size within after running filtering on the function and gradient values.
+Intended to be used in conjunction with an optimization procedure (i.e scipy.optimize)
+assuming all parameters fixed except alpha.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>alpha</code></strong></dt>
+<dd>value of step size</dd>
+<dt><strong><code>delta_t</code></strong></dt>
+<dd>Gradient change</dd>
+<dt><strong><code>m_t</code></strong></dt>
+<dd>Kalman filtered gradient mean</dd>
+<dt><strong><code>B_delta</code></strong></dt>
+<dd>Hessian-vector product</dd>
+<dt><strong><code>s_t</code></strong></dt>
+<dd>Kalman filtered function mean</dd>
+<dt><strong><code>P_t</code></strong></dt>
+<dd>Kalman filtered gradient covariance</dd>
+<dt><strong><code>Q_t</code></strong></dt>
+<dd>Covariance of Hessian-vector product</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>prob</code></dt>
+<dd>Improvement probability function evaluation</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prob_improve(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+    &#34;&#34;&#34;Get an estimate of improvement probability assuming alpha step size.
+    This is done as a subroutine procedure to determine the optimal
+    step size within after running filtering on the function and gradient values.
+    Intended to be used in conjunction with an optimization procedure (i.e scipy.optimize)
+    assuming all parameters fixed except alpha.
+    
+    Args:
+        alpha: value of step size
+        delta_t: Gradient change
+        m_t: Kalman filtered gradient mean
+        B_delta: Hessian-vector product
+        s_t: Kalman filtered function mean
+        P_t: Kalman filtered gradient covariance
+        Q_t: Covariance of Hessian-vector product
+
+    Returns:
+        prob: Improvement probability function evaluation
+    &#34;&#34;&#34;
+    numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+    return numerator / denominator</code></pre>
+</details>
+</dd>
+<dt id="curvesgd.CurveSGD.prob_improve_grad"><code class="name flex">
+<span>def <span class="ident">prob_improve_grad</span></span>(<span>self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get an estimate of improvement probability gradient. See prob_improve for docs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>alpha</code></strong></dt>
+<dd>value of step size</dd>
+<dt><strong><code>delta_t</code></strong></dt>
+<dd>Gradient change</dd>
+<dt><strong><code>m_t</code></strong></dt>
+<dd>Kalman filtered gradient mean</dd>
+<dt><strong><code>B_delta</code></strong></dt>
+<dd>Hessian-vector product</dd>
+<dt><strong><code>s_t</code></strong></dt>
+<dd>Kalman filtered function mean</dd>
+<dt><strong><code>P_t</code></strong></dt>
+<dd>Kalman filtered gradient covariance</dd>
+<dt><strong><code>Q_t</code></strong></dt>
+<dd>Covariance of Hessian-vector product</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>prob_gradient</code></dt>
+<dd>Gradient of improvement probability function</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prob_improve_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+    &#34;&#34;&#34;Get an estimate of improvement probability gradient. See prob_improve for docs
+    
+    Args:
+        alpha: value of step size
+        delta_t: Gradient change
+        m_t: Kalman filtered gradient mean
+        B_delta: Hessian-vector product
+        s_t: Kalman filtered function mean
+        P_t: Kalman filtered gradient covariance
+        Q_t: Covariance of Hessian-vector product
+
+    Returns:
+        prob_gradient: Gradient of improvement probability function 
+    &#34;&#34;&#34;
+    numerator, denominator = self._get_prob_improve_num_den(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+    alpha = alpha[0]
+    numerator_grad = -delta_t.t().matmul(m_t) + alpha * delta_t.t().matmul(B_delta)
+    denominator_grad = 1 / (2 * denominator) * (2 * alpha * delta_t.t().matmul(P_t).matmul(delta_t) \
+        + alpha ** 3 * delta_t.t().matmul(Q_t).matmul(delta_t))
+    numerator_grad = numerator_grad.detach().numpy()
+    denominator_grad = denominator_grad.detach().numpy()
+
+    return (denominator * numerator_grad - numerator * denominator_grad) / denominator ** 2</code></pre>
+</details>
+</dd>
+<dt id="curvesgd.CurveSGD.prob_improve_num_grad"><code class="name flex">
+<span>def <span class="ident">prob_improve_num_grad</span></span>(<span>self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get an estimate of improvement numerical gradient. See prob_improve for docs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>alpha</code></strong></dt>
+<dd>value of step size</dd>
+<dt><strong><code>delta_t</code></strong></dt>
+<dd>Gradient change</dd>
+<dt><strong><code>m_t</code></strong></dt>
+<dd>Kalman filtered gradient mean</dd>
+<dt><strong><code>B_delta</code></strong></dt>
+<dd>Hessian-vector product</dd>
+<dt><strong><code>s_t</code></strong></dt>
+<dd>Kalman filtered function mean</dd>
+<dt><strong><code>P_t</code></strong></dt>
+<dd>Kalman filtered gradient covariance</dd>
+<dt><strong><code>Q_t</code></strong></dt>
+<dd>Covariance of Hessian-vector product</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>prob_gradient</code></dt>
+<dd>Numerical gradient of improvement probability function</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prob_improve_num_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+    &#34;&#34;&#34;Get an estimate of improvement numerical gradient. See prob_improve for docs
+    
+    Args:
+        alpha: value of step size
+        delta_t: Gradient change
+        m_t: Kalman filtered gradient mean
+        B_delta: Hessian-vector product
+        s_t: Kalman filtered function mean
+        P_t: Kalman filtered gradient covariance
+        Q_t: Covariance of Hessian-vector product
+
+    Returns:
+        prob_gradient: Numerical gradient of improvement probability function
+    &#34;&#34;&#34;
+    eps = 1e-4
+    f_plus = self.prob_improve(alpha + eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+    f_minus = self.prob_improve(alpha - eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+    return (f_plus - f_minus) / (2 * eps)</code></pre>
+</details>
+</dd>
+<dt id="curvesgd.CurveSGD.step"><code class="name flex">
+<span>def <span class="ident">step</span></span>(<span>self, closure=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Performs a single optimization step.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>closure</code></strong></dt>
+<dd>A closure that reevaluates the model and returns the loss.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>loss</code></dt>
+<dd>Loss (before taking optimizer step)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def step(self, closure = None):
+    r&#34;&#34;&#34;Performs a single optimization step.
+
+    Args:
+        closure: A closure that reevaluates the model and returns the loss.
+
+    Returns:
+        loss: Loss (before taking optimizer step)
+    &#34;&#34;&#34;
+    loss = None
+    if closure is not None:
+        loss = closure()
+
+    for group in self.param_groups:
+        beta_r = group[&#39;beta_r&#39;]
+        beta_sigma = group[&#39;beta_sigma&#39;]
+        beta_alpha = group[&#39;beta_alpha&#39;]
+
+        for p in group[&#39;params&#39;]:
+            if p.grad is None:
+                continue
+            d_p = p.grad.data.flatten()
+
+            if d_p.is_sparse:
+                msg = (
+                    &#39;CurveSGD does not support sparse gradients, &#39;
+                    &#39;please consider SparseAdam instead&#39;
+                )
+                raise RuntimeError(msg)
+            state = self.state[p]
+
+            # State initialization
+            if len(state) == 0:
+                state[&#39;t&#39;] = 0
+
+                state[&#39;delta_t&#39;] = torch.zeros_like(
+                    p, memory_format=torch.preserve_format
+                )
+
+                # Exponential moving average of function values
+                state[&#39;func_exp_avg&#39;] = loss.clone()
+                state[&#39;func_exp_var&#39;] = torch.zeros((1))
+
+                # Exponential moving average of gradient values
+                state[&#39;grad_exp_avg&#39;] = d_p.clone()
+                state[&#39;grad_exp_var&#39;] = torch.zeros_like(
+                    p.flatten(), memory_format=torch.preserve_format
+                )
+
+                # Exponential moving average of Hessian values
+                state[&#39;hess_exp_avg&#39;] = self.get_hessian_prod(p, p.grad, state[&#39;delta_t&#39;]).flatten().clone()
+                state[&#39;hess_exp_var&#39;] = torch.zeros_like(
+                    p.flatten(), memory_format=torch.preserve_format
+                )
+
+                # Kalman Filter states
+                state[&#39;m_t&#39;] = torch.zeros_like(
+                    p.flatten(), memory_format=torch.preserve_format
+                )
+                state[&#39;P_t&#39;] = torch.eye(d_p.size()[0]).mul(1e4)
+                state[&#39;u_t&#39;] = 0
+                state[&#39;s_t&#39;] = 1e4
+
+            func_exp_avg = state[&#39;func_exp_avg&#39;]
+            func_exp_var = state[&#39;func_exp_var&#39;]
+            grad_exp_avg = state[&#39;grad_exp_avg&#39;]
+            grad_exp_var = state[&#39;grad_exp_var&#39;]
+            hess_exp_avg = state[&#39;hess_exp_avg&#39;]
+            hess_exp_var = state[&#39;hess_exp_var&#39;]
+            delta_t = state[&#39;delta_t&#39;]
+
+            B_delta = self.get_hessian_prod(p, p.grad, delta_t).flatten()
+            delta_t = delta_t.flatten()
+            
+            if state[&#39;t&#39;] != 0:
+                beta_delta = 1 - 1 / state[&#39;t&#39;] # non-smoothed running average/variance
+
+                func_exp_avg, func_exp_var = self.mean_var_ewa(func_exp_avg, func_exp_var, loss, beta_r)
+                grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, d_p, beta_sigma)
+                hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, B_delta, beta_delta)
+
+            eps = 10e-1
+            sigma_t = max(eps, torch.mean(grad_exp_var))
+            q_t = max(eps, torch.mean(hess_exp_var))
+
+            # Match notation from paper for convenience
+            y_t = func_exp_avg
+            r_t = func_exp_var
+            g_t = grad_exp_avg
+            Sigma_t = torch.eye(d_p.size()[0]).mul(sigma_t)
+            b_t = hess_exp_avg
+            Q_t = torch.eye(d_p.size()[0]).mul(q_t)
+
+            # Kalman Filter update for f
+            u_t = state[&#39;u_t&#39;]
+            s_t = state[&#39;s_t&#39;]
+            m_t = state[&#39;m_t&#39;]
+            P_t = state[&#39;P_t&#39;]
+
+            # steps for Kalman filter
+            # compute u_t_minus
+            u_t_minus = u_t + m_t.t().matmul(delta_t) + 1 / 2 * delta_t.t().matmul(B_delta)
+            c_t = s_t + delta_t.t().matmul(P_t).matmul(delta_t) + 1 / 4 * delta_t.t().matmul(Q_t).matmul(delta_t) + r_t
+            lambda_t = max((y_t - u_t_minus) ** 2 - c_t, 0)
+            s_t_minus = lambda_t + c_t - r_t
+
+            mix_t = s_t_minus / (s_t_minus + r_t)
+            u_t = (1 - mix_t) * u_t_minus + mix_t * y_t
+            s_t = (1 - mix_t) ** 2 * s_t_minus + mix_t ** 2 * r_t
+
+            # Kalman Filter update for grad f
+            m_t_minus = m_t + B_delta
+            P_t_minus = P_t + Q_t 
+            K_t = P_t_minus.matmul((P_t_minus + Sigma_t).inverse())
+
+            m_t = (torch.eye(d_p.size()[0]) - K_t).matmul(m_t_minus) + K_t.matmul(g_t)
+            P_t = (torch.eye(d_p.size()[0]) - K_t).matmul(P_t_minus).matmul((torch.eye(d_p.size()[0]) - K_t).t()) \
+                    + K_t.matmul(Sigma_t).matmul(K_t.t())
+
+            prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+            prob_improve_grad_closure = lambda alpha : self.prob_improve_num_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
+            
+            if state[&#39;t&#39;] == 0:
+                lr = group[&#39;lr&#39;]
+            else:
+                lr = min(.0015, minimize(prob_improve_closure, group[&#39;lr&#39;], jac=prob_improve_grad_closure, method=&#39;BFGS&#39;).x[0])
+            
+            delta_t = m_t.mul(lr).reshape(p.data.shape)
+
+            state[&#39;t&#39;] += 1
+            
+            state[&#39;u_t&#39;] = u_t
+            state[&#39;s_t&#39;] = s_t
+            state[&#39;m_t&#39;] = m_t
+            state[&#39;P_t&#39;] = P_t
+
+            state[&#39;func_exp_avg&#39;] = func_exp_avg
+            state[&#39;func_exp_var&#39;] = func_exp_var
+            state[&#39;grad_exp_avg&#39;] = grad_exp_avg
+            state[&#39;grad_exp_var&#39;] = grad_exp_var
+            state[&#39;hess_exp_avg&#39;] = hess_exp_avg
+            state[&#39;hess_exp_var&#39;] = hess_exp_var
+            state[&#39;delta_t&#39;]      = delta_t
+
+            # Use filtered gradient estimate for update step
+            p.data.sub_(delta_t)
+
+    return loss</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="curvesgd.CurveSGD" href="#curvesgd.CurveSGD">CurveSGD</a></code></h4>
+<ul class="">
+<li><code><a title="curvesgd.CurveSGD.get_hessian_prod" href="#curvesgd.CurveSGD.get_hessian_prod">get_hessian_prod</a></code></li>
+<li><code><a title="curvesgd.CurveSGD.mean_var_ewa" href="#curvesgd.CurveSGD.mean_var_ewa">mean_var_ewa</a></code></li>
+<li><code><a title="curvesgd.CurveSGD.prob_improve" href="#curvesgd.CurveSGD.prob_improve">prob_improve</a></code></li>
+<li><code><a title="curvesgd.CurveSGD.prob_improve_grad" href="#curvesgd.CurveSGD.prob_improve_grad">prob_improve_grad</a></code></li>
+<li><code><a title="curvesgd.CurveSGD.prob_improve_num_grad" href="#curvesgd.CurveSGD.prob_improve_num_grad">prob_improve_num_grad</a></code></li>
+<li><code><a title="curvesgd.CurveSGD.step" href="#curvesgd.CurveSGD.step">step</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
