@@ -134,7 +134,7 @@ class CurveSGD(Optimizer):
     def mean_var_ewa(self, ema, emvar, x, beta):
         alpha = 1 - beta
         delta = x - ema
-        ema_new = ema.mul(1 - alpha).add(delta.mul(alpha))
+        ema_new = ema.add(delta.mul(alpha))
         emvar_new = emvar.add(delta.mul(delta).mul(alpha)).mul(1 - alpha)
         return ema_new, emvar_new
 
@@ -215,8 +215,9 @@ class CurveSGD(Optimizer):
                     grad_exp_avg, grad_exp_var = self.mean_var_ewa(grad_exp_avg, grad_exp_var, p.grad, beta_sigma)
                     hess_exp_avg, hess_exp_var = self.mean_var_ewa(hess_exp_avg, hess_exp_var, B_delta, beta_delta)
 
-                sigma_t = torch.mean(grad_exp_var)
-                q_t = torch.mean(hess_exp_var)
+                eps = 10e-1
+                sigma_t = max(eps, torch.mean(grad_exp_var))
+                q_t = max(eps, torch.mean(hess_exp_var))
 
                 # Match notation from paper for convenience
                 y_t = func_exp_avg
@@ -258,9 +259,8 @@ class CurveSGD(Optimizer):
                 if state['t'] == 0:
                     lr = group['lr']
                 else:
-                    lr = minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS')
-                    lr = lr.x[0]
-                    
+                    lr = min(.0015, minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS').x[0])
+                
                 delta_t = m_t.mul(lr)
 
                 state['t'] += 1
@@ -277,10 +277,6 @@ class CurveSGD(Optimizer):
                 state['hess_exp_avg'] = hess_exp_avg
                 state['hess_exp_var'] = hess_exp_var
                 state['delta_t']      = delta_t
-                print(lr)
-                print(func_exp_avg)
-                print(grad_exp_avg)
-                print("========================")
 
                 # Use filtered gradient estimate for update step
                 p.data.sub_(delta_t)

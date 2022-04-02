@@ -10,6 +10,11 @@ import matplotlib.pyplot as plt
 import curvetorch as curve
 
 
+def basic(tensor):
+    x, y = tensor
+    return x * x + y * y
+
+
 def rosenbrock(tensor):
     x, y = tensor
     return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
@@ -22,20 +27,10 @@ def quadratic(tensor):
     return (x ** 2) / a + (y ** 2) / b
 
 
-def beale(tensor):
-    x, y = tensor
-    f = (
-        (1.5 - x + x * y) ** 2
-        + (2.25 - x + x * y ** 2) ** 2
-        + (2.625 - x + x * y ** 3) ** 2
-    )
-    return f
-
-
 cases = [
-    # (rosenbrock, (1.5, 1.5), (1, 1)),
-    (quadratic, (1.5, 1.5), (0, 0)),
-    # (beale, (1.5, 1.5), (3, 0.5)),
+    (basic, (-1.0, 0.5), (0, 0)),
+    (rosenbrock, (1.5, 1.5), (1, 1)),
+    (quadratic, (0.5, 0.5), (0, 0)),
 ]
 
 
@@ -45,7 +40,7 @@ def ids(v):
 
 
 optimizers = [
-    (curve.CurveSGD, {'lr': 0.001}, 2000),
+    (curve.CurveSGD, {'lr': 0.0015}, 15000),
 ]
 
 
@@ -70,7 +65,7 @@ def test_benchmark_function(case, optimizer_config):
     plt.plot(range(iterations), fs)
     plt.show()
 
-    assert torch.allclose(x, x_min, atol=0.001)
+    assert torch.allclose(x, x_min, atol=0.01)
 
     name = optimizer.__class__.__name__
     assert name in optimizer.__repr__()
