@@ -81,25 +81,21 @@ above:
 
 ## Getting Started
 
-Here's a quick run down of the main components of a Bayesian optimization loop.
+Here's a quick run down of the main component of CurveSGD.
 For more details see our [Documentation](https://CurveTorch.org/docs/introduction) and the
 [Tutorials](https://CurveTorch.org/tutorials).
 
-1. Fit a Gaussian Process model to data
-  ```python
+```python
   import torch
-  from CurveTorch.models import SingleTaskGP
-  from CurveTorch.fit import fit_gpytorch_model
-  from gpytorch.mlls import ExactMarginalLogLikelihood
-
-  train_X = torch.rand(10, 2)
-  Y = 1 - (train_X - 0.5).norm(dim=-1, keepdim=True)  # explicit output dimension
-  Y += 0.1 * torch.rand_like(Y)
-  train_Y = (Y - Y.mean()) / Y.std()
-
-  gp = SingleTaskGP(train_X, train_Y)
-  mll = ExactMarginalLogLikelihood(gp.likelihood, gp)
-  fit_gpytorch_model(mll)
+  import curvetorch as curve
+  
+  for _ in range(iterations):
+    def closure():
+        optimizer.zero_grad()
+        f = func(x)
+        f.backward(retain_graph=True, create_graph=True)
+        return f
+    optimizer.step(closure)
   ```
 
 
