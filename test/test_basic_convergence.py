@@ -11,6 +11,11 @@ import numpy as np
 import curvetorch as curve
 
 
+def ackley(x, y):
+    if isinstance(x, torch.Tensor):
+        return -20.0 * torch.exp(-0.2 * torch.sqrt(0.5 * (x ** 2 + y ** 2))) - torch.exp(0.5 * (torch.cos(2 * np.pi * x)+torch.cos(2 * np.pi * y))) + np.e + 20
+    return -20.0 * np.exp(-0.2 * np.sqrt(0.5 * (x ** 2 + y ** 2))) - np.exp(0.5 * (np.cos(2 * np.pi * x)+np.cos(2 * np.pi * y))) + np.e + 20
+
 def basic(x, y):
     return x * x + y * y
 
@@ -26,7 +31,8 @@ def quadratic(x, y):
 
 
 cases = [
-    (basic, (-0.3, 0.5), (0, 0)),
+    (basic, (1.5, 1.5), (1, 1)),
+    # (ackley, (-0.3, 0.5), (0, 0)), # known failure case
     (rosenbrock, (1.5, 1.5), (1, 1)),
     (quadratic, (0.5, 0.5), (0, 0)),
 ]
@@ -83,7 +89,7 @@ def test_benchmark_function(case, optimizer_config):
     axs[1].set_xlabel("x")
     axs[1].set_ylabel("y")
     axs[1].set_title("Trajectory Plot")
-    axs[1].contour(a, b, f_vec(a, b))
+    axs[1].contour(a, b, f_vec(a, b), levels=15)
 
     for i in range(len(x0s)-1):
         axs[1].plot(x0s[i:i+2], x1s[i:i+2],
