@@ -19,19 +19,16 @@ def ackley(x, y):
 def basic(x, y):
     return x * x + y * y
 
-
 def rosenbrock(x, y):
     return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
-
 
 def quadratic(x, y):
     a = 1.0
     b = 1.0
     return (x ** 2) / a + (y ** 2) / b
 
-
-def camel(x1, x2): 
-   return 4*x1**2-2.1*x1**4+(x1**6)/3+x1*x2-4*x2**2+4*x2**4
+def camel(x, y): 
+   return 4 * x ** 2 - 2.1 * x ** 4 + (x ** 6) / 3 + x * y - 4 * y ** 2 + 4 * y ** 4
 
 cases = [
     (basic, (1.5, 1.5), (1, 1)),

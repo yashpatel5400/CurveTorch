@@ -118,6 +118,32 @@ def quadratic(x, y):
 ```
 ![](results/quadratic.png)
 
+
+### Rosenbrock Convergence
+```python
+def rosenbrock(x, y):
+    return (1 - x) ** 2 + 1 * (y - x ** 2) ** 2
+```
+![](results/rosenbrock.png)
+
+
+### Camel Convergence
+```python
+def camel(x, y): 
+   return 4 * x ** 2 - 2.1 * x ** 4 + (x ** 6) / 3 + x * y - 4 * y ** 2 + 4 * y ** 4
+```
+![](results/camel.png)
+
+
+### Ackley Non-Convergence
+Here is an instance of the algorithm failing to converge:
+```python
+def ackley(x, y):
+    return -20.0 * np.exp(-0.2 * np.sqrt(0.5 * (x ** 2 + y ** 2))) - np.exp(0.5 * (np.cos(2 * np.pi * x)+np.cos(2 * np.pi * y))) + np.e + 20
+```
+![](results/ackley.png)
+
+
 ## Citing CurveTorch
 
 If you use CurveTorch, please cite the following paper:
