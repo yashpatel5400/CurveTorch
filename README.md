@@ -88,7 +88,7 @@ For more details see our [Documentation](https://CurveTorch.org/docs/introductio
 ```python
   import torch
   import curvetorch as curve
-  
+
   for _ in range(iterations):
     def closure():
         optimizer.zero_grad()
@@ -97,6 +97,12 @@ For more details see our [Documentation](https://CurveTorch.org/docs/introductio
         return f
     optimizer.step(closure)
   ```
+
+To run the suite of unit tests, simply run (from the repo root):
+
+```python
+pytest
+```
 
 
 ## Citing CurveTorch
