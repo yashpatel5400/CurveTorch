@@ -16,18 +16,22 @@ __all__ = ('CurveSGD',)
 
 class CurveSGD(Optimizer):
     r"""Implements Self-Tuning Stochastic Optimization with
-    Curvature-Aware Gradient Filtering algorithm.
+    Curvature-Aware Gradient Filtering algorithm (https://arxiv.org/pdf/2011.04803.pdf).
     Arguments:
         params: iterable of parameters to optimize or dicts defining
             parameter groups
         lr: learning rate (default: 1e-3)
     Example:
-        >>> import torch_optimizer as optim
-        >>> optimizer = optim.CurveSGD(model.parameters(), lr=0.1)
-        >>> optimizer.zero_grad()
-        >>> loss_fn(model(input), target).backward()
-        >>> optimizer.step()
-     __ https://arxiv.org/pdf/2011.04803.pdf
+        >>> import curvesgd as curve
+        >>> optimizer = curve.CurveSGD(model.parameters(), lr=0.1)
+        >>> 
+        >>> for _ in range(iterations):
+        >>> def closure():
+        >>>     optimizer.zero_grad()
+        >>>     f = func(x)
+        >>>     f.backward(retain_graph=True, create_graph=True)
+        >>>     return f
+        >>> optimizer.step(closure)
     """
 
     def __init__(
@@ -78,6 +82,17 @@ class CurveSGD(Optimizer):
         return hvs[0]
 
     def _get_prob_improve_num_den(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        """Helper function for probability improvement/gradient calculation. See 
+        prob_improve for full description of its use
+        Arguments:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+        """
         alpha = alpha[0]
         numerator = -alpha * delta_t.matmul(m_t) + alpha ** 2 / 2 * delta_t.t().matmul(B_delta)
         denominator = 2 * s_t + alpha ** 2 * delta_t.t().matmul(P_t).matmul(delta_t) \
@@ -105,6 +120,16 @@ class CurveSGD(Optimizer):
         return numerator / denominator
 
     def prob_improve_num_grad(self, alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t):
+        """Get an estimate of improvement numerical gradient. See prob_improve for docs
+        Arguments:
+            alpha: value of step size
+            delta_t: Gradient change
+            m_t: Kalman filtered gradient mean
+            B_delta: Hessian-vector product
+            s_t: Kalman filtered function mean
+            P_t: Kalman filtered gradient covariance
+            Q_t: Covariance of Hessian-vector product
+        """
         eps = 1e-4
         f_plus = self.prob_improve(alpha + eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
         f_minus = self.prob_improve(alpha - eps, delta_t, m_t, B_delta, s_t, P_t, Q_t)
@@ -132,6 +157,13 @@ class CurveSGD(Optimizer):
         return (denominator * numerator_grad - numerator * denominator_grad) / denominator ** 2
 
     def mean_var_ewa(self, ema, emvar, x, beta):
+        r"""Computes exponential moving average/variance of tensor with update weight beta.
+        Arguments:
+            ema: Current exponential moving average.
+            emvar: Current exponential moving variance.
+            x: New datapoint (should have same untis as ema).
+            beta: Averaging weight for update step.
+        """
         alpha = 1 - beta
         delta = x - ema
         ema_new = ema.add(delta.mul(alpha))

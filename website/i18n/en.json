@@ -4,14 +4,7 @@
     "next": "Next",
     "previous": "Previous",
     "tagline": "Self-Tuning Stochastic Optimization with Curvature-Aware Gradient Filtering in PyTorch",
-    "docs": {
-      "introduction": {
-        "title": "Introduction"
-      },
-      "README": {
-        "title": "README"
-      }
-    },
+    "docs": {},
     "links": {
       "Tutorials": "Tutorials",
       "API Reference": "API Reference",
