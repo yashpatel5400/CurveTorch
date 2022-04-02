@@ -98,7 +98,7 @@ For more details see our [Documentation](https://CurveTorch.org/docs/introductio
     optimizer.step(closure)
   ```
 
-To run the suite of unit tests, simply run (from the repo root):
+To run the suite of unit tests (and recreate the figures provided in the accompanying document), simply run (from the repo root):
 
 ```python
 pytest
