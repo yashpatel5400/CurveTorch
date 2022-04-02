@@ -11,7 +11,7 @@ import numpy as np
 import curvetorch as curve
 
 
-def basic_f(x, y):
+def basic(x, y):
     return x * x + y * y
 
 
@@ -45,7 +45,7 @@ optimizers = [
 @pytest.mark.parametrize('case', cases, ids=ids)
 @pytest.mark.parametrize('optimizer_config', optimizers, ids=ids)
 def test_benchmark_function(case, optimizer_config):
-    func, raw_func, initial_state, min_loc = case
+    func, initial_state, min_loc = case
     optimizer_class, config, iterations = optimizer_config
 
     x = torch.Tensor(initial_state).requires_grad_(True)
