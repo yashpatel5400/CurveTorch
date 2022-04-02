@@ -197,6 +197,7 @@ class CurveSGD(Optimizer):
                     state['u_t'] = 0
                     state['s_t'] = 1e4
 
+                print("1")
                 func_exp_avg = state['func_exp_avg']
                 func_exp_var = state['func_exp_var']
                 grad_exp_avg = state['grad_exp_avg']
@@ -208,6 +209,7 @@ class CurveSGD(Optimizer):
                 B_delta = self.get_hessian_prod(p, p.grad, delta_t).flatten()
                 delta_t = delta_t.flatten()
                 
+                print("2")
                 if state['t'] != 0:
                     beta_delta = 1 - 1 / state['t'] # non-smoothed running average/variance
 
@@ -256,11 +258,10 @@ class CurveSGD(Optimizer):
                 prob_improve_closure = lambda alpha : self.prob_improve(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
                 prob_improve_grad_closure = lambda alpha : self.prob_improve_num_grad(alpha, delta_t, m_t, B_delta, s_t, P_t, Q_t)
                 
-                # if state['t'] == 0:
-                lr = group['lr']
-                print(lr)
-                # else:
-                #     lr = min(.0015, minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS').x[0])
+                if state['t'] == 0:
+                    lr = group['lr']
+                else:
+                    lr = min(.0015, minimize(prob_improve_closure, group['lr'], jac=prob_improve_grad_closure, method='BFGS').x[0])
                 
                 delta_t = m_t.mul(lr).reshape(p.data.shape)
 
