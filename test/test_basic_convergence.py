@@ -30,11 +30,15 @@ def quadratic(x, y):
     return (x ** 2) / a + (y ** 2) / b
 
 
+def camel(x1, x2): 
+   return 4*x1**2-2.1*x1**4+(x1**6)/3+x1*x2-4*x2**2+4*x2**4
+
 cases = [
     (basic, (1.5, 1.5), (1, 1)),
-    # (ackley, (-0.3, 0.5), (0, 0)), # known failure case
+    (ackley, (-0.3, 0.5), (0, 0)), # known failure case
     (rosenbrock, (1.5, 1.5), (1, 1)),
     (quadratic, (0.5, 0.5), (0, 0)),
+    (camel, (0.5, 0.5), (-0.0898, 0.7126)),
 ]
 
 
