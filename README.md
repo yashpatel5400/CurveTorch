@@ -105,6 +105,19 @@ pytest
 ```
 
 
+## CurveTorch Results
+
+Here are results on some known optimization tests:
+
+### Quadratic Convergence
+```python
+def quadratic(x, y):
+    a = 1.0
+    b = 1.0
+    return (x ** 2) / a + (y ** 2) / b
+```
+![](results/quadratic.png)
+
 ## Citing CurveTorch
 
 If you use CurveTorch, please cite the following paper:
