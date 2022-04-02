@@ -113,19 +113,15 @@ class Index extends React.Component {
     // Example for model fitting
     const modelFitCodeExample = `${pre}python
 import torch
-from botorch.models import SingleTaskGP
-from botorch.fit import fit_gpytorch_model
-from botorch.utils import standardize
-from gpytorch.mlls import ExactMarginalLogLikelihood
+import curvetorch as curve
 
-train_X = torch.rand(10, 2)
-Y = 1 - torch.norm(train_X - 0.5, dim=-1, keepdim=True)
-Y = Y + 0.1 * torch.randn_like(Y)  # add some noise
-train_Y = standardize(Y)
-
-gp = SingleTaskGP(train_X, train_Y)
-mll = ExactMarginalLogLikelihood(gp.likelihood, gp)
-fit_gpytorch_model(mll)
+for _ in range(iterations):
+  def closure():
+      optimizer.zero_grad()
+      f = func(x)
+      f.backward(retain_graph=True, create_graph=True)
+      return f
+  optimizer.step(closure)
     `;
     // Example for defining an acquisition function
     const constrAcqFuncExample = `${pre}python
@@ -167,16 +163,8 @@ candidate  # tensor([0.4887, 0.5063])
               <MarkdownBlock>{bash`pip install --upgrade git+https://github.com/yashpatel5400/CurveTorch.git`}</MarkdownBlock>
             </li>
             <li>
-              <h4>Fit a model:</h4>
+              <h4>Optimize a model:</h4>
               <MarkdownBlock>{modelFitCodeExample}</MarkdownBlock>
-            </li>
-            <li>
-              <h4>Construct an acquisition function:</h4>
-              <MarkdownBlock>{constrAcqFuncExample}</MarkdownBlock>
-            </li>
-            <li>
-              <h4>Optimize the acquisition function:</h4>
-              <MarkdownBlock>{optAcqFuncExample}</MarkdownBlock>
             </li>
           </ol>
         </Container>
