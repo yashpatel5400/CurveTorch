@@ -9,7 +9,9 @@
 
 
 CurveTorch is a library for Self-Tuning Stochastic Optimization with
-Curvature-Aware Gradient Filtering built on PyTorch.
+Curvature-Aware Gradient Filtering built on PyTorch. See the full
+write-up [here](STATS_606__Self_Tuning_Stochastic_Optimization_with_Curvature_Aware.pdf) and
+accompanying documetation [here](curvetorch.herokuapp.com/).
 
 *CurveTorch is currently in beta and under active development!*
 
