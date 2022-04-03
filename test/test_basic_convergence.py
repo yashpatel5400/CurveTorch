@@ -30,12 +30,26 @@ def quadratic(x, y):
 def camel(x, y): 
    return 4 * x ** 2 - 2.1 * x ** 4 + (x ** 6) / 3 + x * y - 4 * y ** 2 + 4 * y ** 4
 
+def mccor(x1, x2):
+    if isinstance(x1, torch.Tensor):
+        return torch.sin(x1+x2)+(x1-x2)**2-1.5*x1+2.5*x2+1
+    return np.sin(x1+x2)+(x1-x2)**2-1.5*x1+2.5*x2+1
+
+def rastrigin(x, y):
+    if isinstance(x, torch.Tensor):
+        return (x**2 - 1 * torch.cos(2 * np.pi * x)) + \
+            (y**2 - 1 * torch.cos(2 * np.pi * y)) + 2
+    return (x**2 - 1 * np.cos(2 * np.pi * x)) + \
+        (y**2 - 1 * np.cos(2 * np.pi * y)) + 2
+
 cases = [
     (basic, (1.5, 1.5), (1, 1)),
     (ackley, (-0.3, 0.5), (0, 0)), # known failure case
     (rosenbrock, (1.5, 1.5), (1, 1)),
     (quadratic, (0.5, 0.5), (0, 0)),
     (camel, (0.5, 0.5), (-0.0898, 0.7126)),
+    (mccor, (-0.5, -0.5), (-0.54719, -1.54719)),
+    (rastrigin, (-0.5, -0.5), (0, 0)),
 ]
 
 
@@ -95,7 +109,7 @@ def test_benchmark_function(case, optimizer_config):
     for i in range(len(x0s)-1):
         axs[1].plot(x0s[i:i+2], x1s[i:i+2],
                  alpha=float(i) / (len(x0s)-1),
-                 color="blue")
+                 color="red")
     plt.show()
 
     assert torch.allclose(x, x_min, atol=0.01)
