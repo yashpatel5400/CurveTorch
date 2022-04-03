@@ -30,17 +30,17 @@ def quadratic(x, y):
 def camel(x, y): 
    return 4 * x ** 2 - 2.1 * x ** 4 + (x ** 6) / 3 + x * y - 4 * y ** 2 + 4 * y ** 4
 
-def mccor(x1, x2):
-    if isinstance(x1, torch.Tensor):
-        return torch.sin(x1+x2)+(x1-x2)**2-1.5*x1+2.5*x2+1
-    return np.sin(x1+x2)+(x1-x2)**2-1.5*x1+2.5*x2+1
+def mccor(x, y):
+    if isinstance(x, torch.Tensor):
+        return torch.sin(x + y) + (x - y) ** 2 - 1.5 * x + 2.5 * y + 
+    return np.sin(x + y) + (x - y) ** 2 - 1.5 * x + 2.5 * y + 1
 
 def rastrigin(x, y):
     if isinstance(x, torch.Tensor):
-        return (x**2 - 1 * torch.cos(2 * np.pi * x)) + \
-            (y**2 - 1 * torch.cos(2 * np.pi * y)) + 2
-    return (x**2 - 1 * np.cos(2 * np.pi * x)) + \
-        (y**2 - 1 * np.cos(2 * np.pi * y)) + 2
+        return (x ** 2 - 1 * torch.cos(2 * np.pi * x)) + \
+            (y ** 2 - 1 * torch.cos(2 * np.pi * y)) + 2
+    return (x ** 2 - 1 * np.cos(2 * np.pi * x)) + \
+        (y ** 2 - 1 * np.cos(2 * np.pi * y)) + 2
 
 cases = [
     (basic, (1.5, 1.5), (1, 1)),

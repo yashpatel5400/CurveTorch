@@ -135,6 +135,22 @@ def camel(x, y):
 ![](results/camel.png)
 
 
+### McCormick's Function Convergence
+```python
+def mccor(x1, x2):
+    return np.sin(x1+x2)+(x1-x2)**2-1.5*x1+2.5*x2+1
+```
+![](results/rastringin.png)
+
+
+### Rastrigin Convergence
+```python
+def rastrigin(x, y):
+    return (x**2 - 1 * np.cos(2 * np.pi * x)) + (y**2 - 1 * np.cos(2 * np.pi * y)) + 2
+```
+![](results/mccormick.png)
+
+
 ### Ackley Non-Convergence
 Here is an instance of the algorithm failing to converge:
 ```python
